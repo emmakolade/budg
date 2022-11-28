@@ -1,0 +1,243 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Budg Expense Manager</title>
+    <link
+      href="https://fonts.googleapis.com/css?family=Ubuntu:300,500,700"
+      rel="stylesheet"
+    />
+    <!--  <link
+      rel="stylesheet"
+      href="https://use.fontawesome.com/releases/v5.3.1/css/all.css"
+      integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU"
+      crossorigin="anonymous"
+    /> -->
+    <script
+      src="https://kit.fontawesome.com/21fe399584.js"
+      crossorigin="anonymous"
+    ></script>
+    <link href="{% static 'css/style.css' %}" rel="stylesheet" />
+  </head>
+  <body>
+    <!--Hader Navigation-->
+    <header class="top-nav">
+      <div class="logo-container">
+        <div class="logo-icon">
+          <i class="fas fa-chart-line"></i>
+        </div>
+        <div class="logo-text">
+          <h2>Budg</h2>
+        </div>
+      </div>
+
+      <div class="nav-link-right">
+        <ul>
+          <form
+            class="example"
+            action="/action_page.php"
+            style="margin: auto; max-width: 300px"
+          >
+            <input type="text" placeholder="Search Expenses.." name="search" />
+            <button type="submit"><i class="fa fa-search"></i></button>
+          </form>
+          <li class="w-768">
+            <a>Kolade</a>
+          </li>
+          <li class="w-768">
+            <a>{emmakolade@gmail.com}</a>
+          </li>
+          <li>
+            <a href="{% url 'login' %}">Login</a>
+          </li>
+          <li class="max-1200" id="navOpener">
+            <i class="fas fa-bars"></i>
+          </li>
+        </ul>
+      </div>
+    </header>
+    <!--Hader Navigation-->
+
+    <!--- Main Content -->
+    <main class="main">
+      <!-- Sidebar -->
+      <aside class="main-sidebar-nav">
+        <ul class="wrapper">
+          <li class="active">
+            <a href="">
+              <i class="fas fa-columns"></i>
+              <span>Dashboard</span>
+            </a>
+          </li>
+          <li>
+            <a href="">
+              <i class="fas fa-file-invoice-dollar"></i>
+              <span>Bills & Payments</span>
+            </a>
+          </li>
+          <li>
+            <a href="">
+              <i class="fas fa-chart-bar"></i>
+              <span>Expenses</span>
+            </a>
+          </li>
+          <li>
+            <a href="">
+              <i class="fas fa-cog"></i>
+              <span>Settings</span>
+            </a>
+          </li>
+          <li>
+            <a href="javascript:;">
+              <i class="fas fa-hands-helping"></i>
+              <span>Dashboard</span>
+            </a>
+          </li>
+        </ul>
+      </aside>
+      <!-- Sidebar -->
+
+      <!--Main Area-->
+      <div class="main-area container-fluid">
+        <div class="row">
+          <div class="col-sm-12 col-md-12 col-lg-8 main-area-content">
+            <div class="row">
+              <div class="col-sm-6 col-md-6 col-lg-6">
+                <div class="card shadow">
+                  <div class="card-body">
+                    <div class="imp-info income-txt">
+                      <span class="info-text"> Income </span>
+                      <span class="info-amt bold"> $ 18,046 </span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-sm-6 col-md-6 col-lg-6">
+                <div class="card shadow">
+                  <div class="card-body">
+                    <div class="imp-info expense-txt">
+                      <span class="info-text"> Expense Summary </span>
+                      <span class="info-amt bold"> $ 46,046 </span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="base-container row">
+              {% block content%} {% endblock content %}
+            </div>
+          </div>
+          <div class="col-sm-12 col-md-12 col-lg-4 transaction-history">
+            <div class="card shadow">
+              <div class="card-header text-center">
+                <i class="fas fa-file-signature"></i>Transactions / Expenses
+                <div id="new-expense">
+                  <button id="new-expense" class="btn btn-info">
+                    Add Expense
+                  </button>
+                </div>
+              </div>
+
+              <div class="card-body">
+                <ul class="transaction-history-wrapper">
+                  <li>
+                    <div class="row">
+                      <div class="col-8 f">
+                        <!-- <i class="fab fa-aviato"></i> -->
+                        <span class="spending-text">
+                          <span class="heading"> Burger King </span>
+                          <span class="sub"> 5th Dec 2018 Monday </span>
+                          <span class="sub2">category: online services</span>
+                        </span>
+                      </div>
+
+                      <div class="col-4 amt-right">
+                        <span class="amount expense"> $ 500 </span>
+                        <span>
+                          <button class="trash">
+                            <i class="fa-regular fa-pen-to-square"></i>
+                          </button>
+
+                          <button class="trash">
+                            <i class="fa-regular fa-trash-can"></i>
+                          </button>
+                        </span>
+                      </div>
+                    </div>
+                  </li>
+                  <li>
+                    <div class="row">
+                      <div class="col-8 f">
+                        <!-- <i class="fab fa-amazon-pay"></i> -->
+                        <span class="spending-text">
+                          <span class="heading"> Govind Payment </span>
+                          <span class="sub"> 5th Sep 2018 TuesDay </span>
+                          <span class="sub2">category: online services</span>
+                        </span>
+                      </div>
+                      <div class="col-4 amt-right">
+                        <span class="amount income"> $ 500 </span>
+                        <span>
+                          <button class="trash">
+                            <i class="fa-regular fa-pen-to-square"></i>
+                          </button>
+
+                          <button class="trash">
+                            <i class="fa-regular fa-trash-can"></i>
+                          </button>
+                        </span>
+                      </div>
+                    </div>
+                  </li>
+                  <li>
+                    <div class="row">
+                      <div class="col-8 f">
+                        <!-- <i class="fab fa-500px"></i> -->
+                        <span class="spending-text">
+                          <span class="heading"> Burger King </span>
+                          <span class="sub"> 5th Dec 2018 Monday </span>
+                          <span class="sub2">category: online services</span>
+                        </span>
+                      </div>
+                      <div class="col-4 amt-right">
+                        <span class="amount expense"> $ 500 </span>
+                        <span>
+                          <button class="trash">
+                            <i class="fa-regular fa-pen-to-square"></i>
+                          </button>
+
+                          <button class="trash">
+                            <i class="fa-regular fa-trash-can"></i>
+                          </button>
+                        </span>
+                      </div>
+                    </div>
+                  </li>
+                </ul>
+              </div>
+              <div class="card-footer">
+                <div class="transaction-footer">
+                  <div class="missing-transactions">
+                    <span> Showing Page 1 of 2</span>
+                  </div>
+                  <div>
+                    <button class="btn btn-info"><<</button>
+                    <button class="btn btn-info">2>></button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!--Main Area-->
+    </main>
+    <!--- Main Content -->
+    <script type="text/javascript" src="{% static 'js/vendor.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/main.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/app.js' %}"></script>
+  </body>
+</html>
