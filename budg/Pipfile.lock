@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "5f2b1a08d5435d6212d377952ad2ab401edb7edbf9fc6affbb07e081d02a37dc"
+            "sha256": "713e40af48c0cc8deddbf4bb60d4a5b04933d978897703d65c42259aec980f20"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -74,6 +74,14 @@
             "index": "pypi",
             "version": "==2.9.5"
         },
+        "python-decouple": {
+            "hashes": [
+                "sha256:2838cdf77a5cf127d7e8b339ce14c25bceb3af3e674e039d4901ba16359968c7",
+                "sha256:6cf502dc963a5c642ea5ead069847df3d916a6420cad5599185de6bab11d8c2e"
+            ],
+            "index": "pypi",
+            "version": "==3.6"
+        },
         "setuptools": {
             "hashes": [
                 "sha256:57f6f22bde4e042978bcd50176fdb381d7c21a9efa4041202288d3737a0c6a54",
@@ -97,6 +105,13 @@
             ],
             "markers": "sys_platform == 'win32'",
             "version": "==2022.6"
+        },
+        "validate-email": {
+            "hashes": [
+                "sha256:784719dc5f780be319cdd185dc85dd93afebdb6ebb943811bc4c7c5f9c72aeaf"
+            ],
+            "index": "pypi",
+            "version": "==1.3"
         },
         "whitenoise": {
             "hashes": [

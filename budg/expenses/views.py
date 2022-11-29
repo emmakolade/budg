@@ -8,8 +8,8 @@ def home(request):
 def add_expense(request):
     return render(request, 'expenses/add_expense.html')
 
-def login(request):
-    return render(request, 'expenses/login.html')
+# def login(request):
+#     return render(request, 'expenses/login.html')
 
-def register(request):
-    return render(request, 'expenses/register.html')
+# def register(request):
+#     return render(request, 'expenses/register.html')

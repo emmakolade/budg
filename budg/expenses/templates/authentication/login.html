@@ -1,13 +1,12 @@
 {% load static %}
-<!DOCTYPE html>
 <html lang="en">
   <head>
-    <!-- Design by foolishdeveloper.com -->
     <link rel="preconnect" href="https://fonts.gstatic.com" />
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
     />
+    <link href="{% static 'css/bootstrap.min.css'%}" rel="stylesheet" />
     <link
       href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;600&display=swap"
       rel="stylesheet"
@@ -29,10 +28,20 @@
       <h3>Login Here</h3>
 
       <label for="username">Username</label>
-      <input type="text" placeholder="Username or Email" id="username" />
+      <input
+        type="text"
+        name="username"
+        placeholder="Username or Email"
+        id="username"
+      />
 
       <label for="password">Password</label>
-      <input type="password" placeholder="Password" id="password" />
+      <input
+        type="password"
+        name="password"
+        placeholder="Password"
+        id="password"
+      />
 
       <button>Log In</button>
       <div class="register-password">
@@ -46,5 +55,11 @@
         <div class="fb"><i class="fab fa-facebook"></i> Facebook</div>
       </div>
     </form>
+    <script
+      src="/docs/4.4/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-6khuMg9gaYr5AxOqhkVIODVIvm9ynTT5J4V1cfthmT+emCG6yVmEZsRHdxlotUnm"
+      crossorigin="anonymous"
+    ></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/feather-icons/4.9.0/feather.min.js"></script>
   </body>
 </html>
