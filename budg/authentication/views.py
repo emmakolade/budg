@@ -35,11 +35,15 @@ class Registration(View):
                 if len(password) < 8:
                     messages.error(request, 'password is too short')
                     return render(request, 'authentication/register.html', context)
+
                 user = User.objects.create_user(
-                    username=username, email=email,)
+                    username=username, email=email)
                 user.set_password(password)
                 user.is_active = False
                 user.save()
+                messages.success(
+                    request, 'account created sucessfully for ' + username)
+                return redirect('login')
                 # email_subject = 'kindly activate your account'
                 # email_body = 'test Budg'
                 # email = EmailMessage(
@@ -49,9 +53,8 @@ class Registration(View):
                 #     [email],
                 # )
                 # email.send(fail_silently=False)
-                messages.success(
-                    request, 'account created sucessfully for ' + username)
-                return redirect('login')
+                
+                
                 # return render(request, 'authentication/register.html')
         return render(request, 'authentication/register.html')
 
