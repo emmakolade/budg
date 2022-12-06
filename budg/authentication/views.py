@@ -4,7 +4,7 @@ import json
 from django.http import JsonResponse
 from django.contrib.auth.models import User
 # from django.contrib.auth.forms import UserCreationForm
-from validate_email import validate_email
+# from validate_email import validate_email
 from django.contrib import messages, auth
 
 from django.core.mail import EmailMessage
@@ -39,7 +39,7 @@ class Registration(View):
                 user = User.objects.create_user(
                     username=username, email=email)
                 user.set_password(password)
-                user.is_active = False
+                user.is_active = True
                 user.save()
                 messages.success(
                     request, 'account created sucessfully for ' + username)
@@ -53,8 +53,7 @@ class Registration(View):
                 #     [email],
                 # )
                 # email.send(fail_silently=False)
-                
-                
+
                 # return render(request, 'authentication/register.html')
         return render(request, 'authentication/register.html')
 
@@ -76,9 +75,6 @@ class Login(View):
                     messages.success(request, 'Welcome, ' +
                                      user.username+' you are now logged in')
                     return redirect('home')
-                messages.error(
-                    request, 'Account is not active,please check your email')
-                return render(request, 'authentication/login.html')
             messages.error(
                 request, 'Invalid credentials,try again')
             return render(request, 'authentication/login.html')
@@ -86,6 +82,13 @@ class Login(View):
         messages.error(
             request, 'Please fill all fields')
         return render(request, 'authentication/login.html')
+
+
+class Logout(View):
+    def get(self, request):
+        auth.logout(request)
+        messages.success(request, 'you have been logged out')
+        return redirect('base')
 
 
 # def loginPage(request):

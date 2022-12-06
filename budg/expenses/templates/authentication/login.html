@@ -24,8 +24,9 @@
       <div class="shape"></div>
       <div class="shape"></div>
     </div>
-    <form>
+    <form action="{% url 'login' %}" method="POST">
       <h3>Login Here</h3>
+      {% csrf_token %} {% include 'partials/_messages.html' %}
 
       <label for="username">Username</label>
       <input
