@@ -26,6 +26,7 @@
         </div>
       </div>
     </div>
+    {% if expenses.count %}
     <div class="col-sm-12 col-md-12 col-lg-4 transaction-history">
       <div class="card shadow">
         <div class="card-header text-center">
@@ -38,36 +39,41 @@
             >
           </div>
         </div>
-        {% include 'partials/_messages.html' %}
+
         <div class="card-body">
+          {% for expense in expenses %}
           <ul class="transaction-history-wrapper">
             <li>
               <div class="row">
                 <div class="col-8 f">
                   <!-- <i class="fab fa-aviato"></i> -->
                   <span class="spending-text">
-                    <span class="heading"> Shawarma </span>
-                    <span class="sub"> 5th Dec 2022 </span>
-                    <span class="sub2">category: online services</span>
+                    <span class="heading"> {{expense.description}} </span>
+                    <span class="sub">{{expense.date}}</span>
+                    <span class="sub2">category: {{expense.category}}</span>
                   </span>
                 </div>
 
                 <div class="col-4 amt-right">
-                  <span class="amount expense"> $ 500 </span>
+                  <span class="amount expense"> {{expense.amount}} </span>
                   <span>
-                    <button class="trash">
-                      <i class="fa-regular fa-pen-to-square"></i>
-                    </button>
+                    <a href="{% url 'edit_expense' expense.id %}"
+                      ><button class="trash">
+                        <i class="fa-regular fa-pen-to-square"></i></button
+                    ></a>
 
-                    <button class="trash">
-                      <i class="fa-regular fa-trash-can"></i>
-                    </button>
+                    <a href="{% url 'delete_expense' expense.id %}"
+                      ><button class="trash">
+                        <i class="fa-regular fa-trash-can"></i></button
+                    ></a>
                   </span>
                 </div>
               </div>
             </li>
           </ul>
+          {% endfor %}
         </div>
+
         <div class="card-footer">
           <div class="transaction-footer">
             <div class="missing-transactions">
@@ -81,6 +87,7 @@
         </div>
       </div>
     </div>
+    {% endif %}
   </div>
 </div>
 {% endblock content%}
