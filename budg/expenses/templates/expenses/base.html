@@ -21,17 +21,28 @@
   <body>
     <!--Hader Navigation-->
     <header class="top-nav">
-      <div class="logo-container">
+      {% if user.is_authenticated %}
+      <a class="logo-container" href="{% url 'home' %}">
         <div class="logo-icon">
           <i class="fas fa-chart-line"></i>
         </div>
         <div class="logo-text">
           <h2>Budg</h2>
         </div>
-      </div>
-
+      </a>
+      {% else %}
+      <a class="logo-container" href="{% url 'base' %}">
+        <div class="logo-icon">
+          <i class="fas fa-chart-line"></i>
+        </div>
+        <div class="logo-text">
+          <h2>Budg</h2>
+        </div>
+      </a>
+      {% endif %}
       <div class="nav-link-right">
         <ul>
+          {% if user.is_authenticated %}
           <form
             class="example"
             action="/action_page.php"
@@ -41,7 +52,6 @@
             <button type="submit"><i class="fa fa-search"></i></button>
           </form>
 
-          {% if user.is_authenticated %}
           <li class="w-768">
             <span>Hi, {{request.user}}</span>
           </li>
@@ -85,7 +95,7 @@
             </a>
           </li>
           <li>
-            <a href="">
+            <a href="{% url 'home' %}">
               <i class="fas fa-chart-bar"></i>
               <span>Expenses</span>
             </a>
@@ -97,9 +107,15 @@
             </a>
           </li>
           <li>
+            <a href="{% url 'options'%}">
+              <i class="fas fa-hands-helping"></i>
+              <span>General</span>
+            </a>
+          </li>
+          <li>
             <a href="javascript:;">
               <i class="fas fa-hands-helping"></i>
-              <span>Dashboard</span>
+              <span>Account</span>
             </a>
           </li>
         </ul>
@@ -107,12 +123,13 @@
       <!-- Sidebar -->
 
       <!--Main Area-->
-      
-      {% if user.is_authenticated %}
-        
-      {% block content %} {% endblock %}
-      {% else %}
-      <h2>kindly login to start managing your finances and enjoy some cool features </h2>
+
+      {% if user.is_authenticated %} {% block content %} {% endblock %} {% else %}
+      <h2>
+        kindly login to start managing your finances and enjoy some cool
+        features
+      </h2>
+      <a href="{% url 'register' %}">click here to create an account</a>
       {% endif %}
       <!--Main Area-->
     </main>

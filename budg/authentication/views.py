@@ -44,17 +44,7 @@ class Registration(View):
                 messages.success(
                     request, 'account created sucessfully for ' + username)
                 return redirect('login')
-                # email_subject = 'kindly activate your account'
-                # email_body = 'test Budg'
-                # email = EmailMessage(
-                #     email_subject,
-                #     email_body,
-                #     'noreply@kolade.com',
-                #     [email],
-                # )
-                # email.send(fail_silently=False)
 
-                # return render(request, 'authentication/register.html')
         return render(request, 'authentication/register.html')
 
 
@@ -69,19 +59,45 @@ class Login(View):
         if username and password:
             user = auth.authenticate(username=username, password=password)
 
-            if user:
-                if user.is_active:
-                    auth.login(request, user)
-                    messages.success(request, 'Welcome, ' +
-                                     user.username+' you are now logged in')
-                    return redirect('home')
-            messages.error(
-                request, 'Invalid credentials,try again')
-            return render(request, 'authentication/login.html')
+            if user and user.is_active:
+                auth.login(request, user)
+                messages.success(request, 'Welcome, ' +
+                                 username +' you are now logged in')
+                return redirect('home')
 
-        messages.error(
-            request, 'Please fill all fields')
+            messages.error(request, 'Invalid credentials, try again')
+
+        else:
+            messages.error(request, 'Please fill all fields')
+
         return render(request, 'authentication/login.html')
+
+
+# class Login(View):
+
+#     def get(self, request):
+#         return render(request, 'authentication/login.html')
+
+#     def post(self, request):
+#         username = request.POST.get('username')
+#         password = request.POST.get('password')
+
+#         if username and password:
+#             user = auth.authenticate(username=username, password=password)
+
+#             if user:
+#                 if user.is_active:
+#                     auth.login(request, user)
+#                     messages.success(request, 'Welcome, ' +
+#                                      user.username+' you are now logged in')
+#                     return redirect('home')
+#             messages.error(
+#                 request, 'Invalid credentials,try again')
+#             return render(request, 'authentication/login.html')
+
+#         messages.error(
+#             request, 'Please fill all fields')
+#         return render(request, 'authentication/login.html')
 
 
 class Logout(View):
@@ -89,22 +105,6 @@ class Logout(View):
         auth.logout(request)
         messages.success(request, 'you have been logged out')
         return redirect('base')
-
-
-# def loginPage(request):
-
-#     if request.method == 'POST':
-#         username = request.POST.get('username')
-#         password = request.POST.get('password')
-
-#         user = authenticate(request, username=username, password=password)
-
-#         if user is not None:
-#             login(request, user)
-#             return redirect('home')
-#         else:
-#             messages.error(request, 'credentials invalid')
-#     return render(request, 'authentication/login.html')
 
 
 class UsernameValidation(View):
@@ -121,15 +121,15 @@ class UsernameValidation(View):
         return JsonResponse({'username_valid': True})
 
 
-class EmailValidation(View):
-    def post(self, request):
-        data = json.loads(request.body)
-        email = data['email']
+# class EmailValidation(View):
+#     def post(self, request):
+#         data = json.loads(request.body)
+#         email = data['email']
 
-        if not validate_email(email):
-            return JsonResponse({'email_error': 'invalid email'}, status=400)
-        # if usrname exists
-        if User.objects.filter(email=email).exists():
-            return JsonResponse({'email_error': 'email already exsits.. try another one'}, status=409)
+#         if not validate_email(email):
+#             return JsonResponse({'email_error': 'invalid email'}, status=400)
+#         # if usrname exists
+#         if User.objects.filter(email=email).exists():
+#             return JsonResponse({'email_error': 'email already exsits.. try another one'}, status=409)
 
-        return JsonResponse({'email_valid': True})
+#         return JsonResponse({'email_valid': True})
