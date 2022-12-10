@@ -40,7 +40,7 @@
         </div>
 
         <div class="card-body">
-          {% for expense in page_object %}
+          {% for expense in expenses %}
           <ul class="transaction-history-wrapper">
             <li>
               <div class="row">
@@ -73,30 +73,15 @@
           {% endfor %}
         </div>
 
-        <div class="card-footer">
+        {% comment %} <div class="card-footer">
           <div class="transaction-footer">
             <div class="missing-transactions">
               <span>
                 Showing Page {{page_object.number}} of
                 {{page_object.paginator.num_pages}}</span
               >
-              {% comment %}
-              <div class="pagination">
-                <span class="step-links">
-                  {% if page_obj.has_previous %}
-                  <a href="?page=1">&laquo; first</a>
-                  <a href="?page={{ page_obj.previous_page_number }}"
-                    >previous</a
-                  >
-                  {% endif %} {% if page_obj.has_next %}
-                  <a href="?page={{ page_obj.next_page_number }}">next</a>
-                  <a href="?page={{ page_obj.paginator.num_pages }}"
-                    >last &raquo;</a
-                  >
-                  {% endif %}
-                </span>
-              </div>
-              {% endcomment %}
+
+              
             </div>
 
             <div>
@@ -104,7 +89,7 @@
               <button class="btn btn-info">2>></button>
             </div>
           </div>
-        </div>
+        </div> {% endcomment %}
       </div>
     </div>
     {% endif %}

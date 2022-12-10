@@ -8,7 +8,7 @@ from django.contrib.auth.models import User
 class Expense(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     date = models.DateTimeField(auto_now_add=True)
-    amount = models.FloatField()
+    amount = models.DecimalField(max_digits=7, decimal_places=0)
     category = models.CharField(max_length=300)
     description = models.TextField()
 
@@ -18,9 +18,9 @@ class Expense(models.Model):
 
 class Category(models.Model):
     name = models.CharField(max_length=300)
-    
+
     class Meta:
-        verbose_name_plural='Categories'
+        verbose_name_plural = 'Categories'
 
     def __str__(self):
         return self.name
