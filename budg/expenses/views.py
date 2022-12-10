@@ -10,13 +10,13 @@ from django.core.paginator import Paginator
 @login_required(login_url='/authentication/login')
 def home(request):
     categories = Category.objects.all()
-    expenses = Expense.objects.filter(user=request.user)
-    paginator=Paginator(expenses, 4 )
+    expenses = Expense.objects.filter(user=request.user).order_by('-date')
+    paginator = Paginator(expenses, 5)
     page_number = request.GET.get('page')
     page_object = Paginator.get_page(paginator, page_number)
     context = {
         'expenses': expenses,
-        'page_object': page_object
+        'page_object': page_object,
     }
     return render(request, 'expenses/index.html', context)
 
@@ -45,7 +45,7 @@ def add_expense(request):
     category = request.POST.get('category')
     Expense.objects.create(user=request.user, amount=amount,
                            date=date, category=category, description=description)
-    messages.success(request, 'new expense save succesfully')
+    messages.success(request, 'new expense saved succesfully')
     return redirect('home')
 
 
@@ -101,7 +101,6 @@ def edit_expense(request, id):
     category = request.POST.get('category')
     expense.user = request.user
     expense.amount = amount
-    expense.date = date
     expense.category = category
     expense.description = description
     expense.save()

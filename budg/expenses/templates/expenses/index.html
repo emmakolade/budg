@@ -1,5 +1,4 @@
 {% extends 'expenses/base.html' %} {% load static %} {% block content %}
-
 <div class="main-area container-fluid">
   <div class="row">
     <div class="col-sm-12 col-md-12 col-lg-8 main-area-content">
@@ -41,7 +40,7 @@
         </div>
 
         <div class="card-body">
-          {% for expense in expenses %}
+          {% for expense in page_object %}
           <ul class="transaction-history-wrapper">
             <li>
               <div class="row">
@@ -77,8 +76,29 @@
         <div class="card-footer">
           <div class="transaction-footer">
             <div class="missing-transactions">
-              <span> Showing Page 1 of 2</span>
+              <span>
+                Showing Page {{page_object.number}} of
+                {{page_object.paginator.num_pages}}</span
+              >
+              {% comment %}
+              <div class="pagination">
+                <span class="step-links">
+                  {% if page_obj.has_previous %}
+                  <a href="?page=1">&laquo; first</a>
+                  <a href="?page={{ page_obj.previous_page_number }}"
+                    >previous</a
+                  >
+                  {% endif %} {% if page_obj.has_next %}
+                  <a href="?page={{ page_obj.next_page_number }}">next</a>
+                  <a href="?page={{ page_obj.paginator.num_pages }}"
+                    >last &raquo;</a
+                  >
+                  {% endif %}
+                </span>
+              </div>
+              {% endcomment %}
             </div>
+
             <div>
               <button class="btn btn-info"><<</button>
               <button class="btn btn-info">2>></button>
@@ -90,4 +110,4 @@
     {% endif %}
   </div>
 </div>
-{% endblock content%}
+{% endblock content %}
