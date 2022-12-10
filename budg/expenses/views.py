@@ -3,7 +3,8 @@ from django.contrib.auth.decorators import login_required
 from .models import Category, Expense
 from django.contrib import messages
 from django.core.paginator import Paginator
-
+import json
+from django.http import JsonResponse
 # Create your views here.
 
 
@@ -51,7 +52,7 @@ def add_expense(request):
     # Retrieve the date and category from the request data
     date = request.POST.get('date')
     category = request.POST.get('category')
-    
+
     # Create a new Expense object with the given data
     Expense.objects.create(user=request.user, amount=amount,
                            date=date, category=category, description=description)
@@ -85,7 +86,7 @@ def edit_expense(request, id):
         expense.save()
         messages.success(request, ' expense upadted succesfully')
         return redirect('home')
-    
+
     context = {
         'expense': expense,
         'values': expense,
@@ -131,3 +132,15 @@ def delete_expense(request, id):
     expense.delete()
     messages.success(request, 'deleted successfully')
     return redirect('home')
+
+
+def search_expense(request):
+    if request.method == "POST":
+        search_request = json.loads(request.body).get('searchText')
+        
+        s_expenses = Expense.objects.filter(amount__starts_with=search_request, user=request.user) | Expense.objects.filter(
+            date__starts_with=search_request, user=request.user) | Expense.objects.filter(description__icontains=search_request, user=request.user) | Expense.objects.filter(category__icontians=search_request, user=request.user)
+        
+        data = s_expenses.values()
+        
+        return JsonResponse(list(data), safe=False)

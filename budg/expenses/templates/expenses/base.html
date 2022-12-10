@@ -48,7 +48,12 @@
             action="/action_page.php"
             style="margin: auto; max-width: 300px"
           >
-            <input type="text" placeholder="Search Expenses.." name="search" />
+            <input
+              id="searchField"
+              type="text"
+              placeholder="Search Expenses.."
+              name="search"
+            />
             <button type="submit"><i class="fa fa-search"></i></button>
           </form>
 
@@ -75,7 +80,7 @@
         </ul>
       </div>
     </header>
-    {% include 'partials/_messages.html' %} 
+    {% include 'partials/_messages.html' %}
     <!--Hader Navigation-->
 
     <!--- Main Content -->
@@ -125,7 +130,8 @@
 
       <!--Main Area-->
 
-      {% if user.is_authenticated %} {% block content %} {% endblock %} {% else %}
+      {% if user.is_authenticated %} {% block content %} {% endblock %} {% else
+      %}
       <h2>
         kindly login to start managing your finances and enjoy some cool
         features
@@ -145,5 +151,7 @@
       crossorigin="anonymous"
     ></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/feather-icons/4.9.0/feather.min.js"></script>
+    <script src="{% static 'js/searchExpenses.js' %}"></script>
   </body>
 </html>
+  
