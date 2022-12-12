@@ -5,6 +5,7 @@ from django.contrib import messages
 from django.core.paginator import Paginator
 import json
 from django.http import JsonResponse
+import datetime
 # Create your views here.
 
 
@@ -137,10 +138,16 @@ def delete_expense(request, id):
 def search_expense(request):
     if request.method == "POST":
         search_request = json.loads(request.body).get('searchText')
-        
+
         s_expenses = Expense.objects.filter(amount__starts_with=search_request, user=request.user) | Expense.objects.filter(
             date__starts_with=search_request, user=request.user) | Expense.objects.filter(description__icontains=search_request, user=request.user) | Expense.objects.filter(category__icontians=search_request, user=request.user)
-        
+
         data = s_expenses.values()
-        
+
         return JsonResponse(list(data), safe=False)
+
+
+def expense_summarry(request):
+    current_date = datetime.date.today()
+    sixmonth_ago = current_date - datetime.timedelta(days=30 * 6)
+    expenses_date = Expense.objects.filter(date__gte=sixmonth_ago, date_lte= current_date)

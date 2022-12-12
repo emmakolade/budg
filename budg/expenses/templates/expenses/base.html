@@ -43,18 +43,15 @@
       <div class="nav-link-right">
         <ul>
           {% if user.is_authenticated %}
-          <form
-            class="example"
-            action="/action_page.php"
-            style="margin: auto; max-width: 300px"
-          >
+          <form class="example" style="margin: auto; max-width: 300px">
             <input
               id="searchField"
               type="text"
               placeholder="Search Expenses.."
               name="search"
             />
-            <button type="submit"><i class="fa fa-search"></i></button>
+           
+            {% comment %} <button type="submit"><i class="fa fa-search"></i></button>  {% endcomment %}
           </form>
 
           <li class="w-768">
@@ -107,9 +104,9 @@
             </a>
           </li>
           <li>
-            <a href="">
+            <a href="{% url 'income' %}">
               <i class="fas fa-cog"></i>
-              <span>Settings</span>
+              <span>Income</span>
             </a>
           </li>
           <li>
@@ -130,8 +127,9 @@
 
       <!--Main Area-->
 
-      {% if user.is_authenticated %} {% block content %} {% endblock %} {% else
-      %}
+      {% if user.is_authenticated %} {% block content %} 
+      {% endblock %} 
+    {% else %}
       <h2>
         kindly login to start managing your finances and enjoy some cool
         features
@@ -151,7 +149,7 @@
       crossorigin="anonymous"
     ></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/feather-icons/4.9.0/feather.min.js"></script>
-    <script src="{% static 'js/searchExpenses.js' %}"></script>
+    {% comment %} <script src="{% static 'js/searchExpenses.js' %}"></script> {% endcomment %}
+    <script src="{% static 'js/searchExpensestT.js' %}"></script>
   </body>
 </html>
-  

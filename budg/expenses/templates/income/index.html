@@ -25,46 +25,46 @@
         </div>
       </div>
     </div>
-    {% if expenses.count %}
+    {% comment %} {% if income.count %} {% endcomment %}
     <div
       id="normalExpense"
       class="col-sm-12 col-md-12 col-lg-4 transaction-history"
     >
       <div class="card shadow">
         <div class="card-header text-center">
-          <i class="fas fa-file-signature"></i>Transactions / Expenses
+          <i class="fas fa-file-signature"></i>Income
           <div id="new-expense">
-            <a href="{% url 'add_expense' %}"
+            <a href="{% url 'add_income' %}"
               ><button id="new-expense" class="btn btn-info">
-                Add Expense
+                Add Income
               </button></a
             >
           </div>
         </div>
 
         <div class="card-body">
-          {% for expense in expenses %}
+          {% for income in income %}
           <ul class="transaction-history-wrapper">
             <li>
               <div class="row">
                 <div class="col-8 f">
                   <!-- <i class="fab fa-aviato"></i> -->
                   <span class="spending-text">
-                    <span class="heading"> {{expense.description}} </span>
-                    <span class="sub">{{expense.date}}</span>
-                    <span class="sub2">category: {{expense.category}}</span>
+                    <span class="heading"> {{income.description}} </span>
+                    <span class="sub">{{income.date}}</span>
+                    <span class="sub2">source: {{income.source}}</span>
                   </span>
                 </div>
 
                 <div class="col-4 amt-right">
-                  <span class="amount expense"> {{expense.amount}} </span>
+                  <span class="amount income"> {{income.amount}} </span>
                   <span>
-                    <a href="{% url 'edit_expense' expense.id %}"
+                    <a href="{% url 'edit_income' income.id %}"
                       ><button class="trash">
                         <i class="fa-regular fa-pen-to-square"></i></button
                     ></a>
 
-                    <a href="{% url 'delete_expense' expense.id %}"
+                    <a href="{% url 'delete_income' income.id %}"
                       ><button class="trash">
                         <i class="fa-regular fa-trash-can"></i></button
                     ></a>
@@ -75,32 +75,10 @@
           </ul>
           {% endfor %}
         </div>
-
-        {% comment %}
-        <div class="card-footer">
-          <div class="transaction-footer">
-            <div class="missing-transactions">
-              <span>
-                Showing Page {{page_object.number}} of
-                {{page_object.paginator.num_pages}}</span
-              >
-            </div>
-
-            <div>
-              <button class="btn btn-info"><<</button>
-              <button class="btn btn-info">2>></button>
-            </div>
-          </div>
-        </div>
-        {% endcomment %}
       </div>
     </div>
-    {% comment %} search expense {% endcomment %} {% endif %}
+    {% comment %} {% endif %} {% endcomment %}
   </div>
 </div>
-{% comment %}
-<script src="{% static 'js/searchExpenses.js' %}"></script>
-{% endcomment %}
-<script src="{% static 'js/searchExpensestT.js' %}"></script>
 
 {% endblock content %}
