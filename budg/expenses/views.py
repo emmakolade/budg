@@ -146,8 +146,40 @@ def search_expense(request):
 
         return JsonResponse(list(data), safe=False)
 
+# endpoint visualizing the expense data
 
-def expense_summarry(request):
+
+def expense_summary(request):
     current_date = datetime.date.today()
     sixmonth_ago = current_date - datetime.timedelta(days=30 * 6)
-    expenses_date = Expense.objects.filter(date__gte=sixmonth_ago, date_lte= current_date)
+    expenses_date = Expense.objects.filter(user=request.user,
+                                           date__gte=sixmonth_ago, date_lte=current_date)
+
+    finalrep = {}
+
+    # get all the category in an expense
+    def get_category(expense):
+        return expense.category
+
+    category_list = list(set(map(get_category, expenses_date)))
+
+    def get_expense_category_amount(category):
+        amount = 0
+        filtered_category = expenses_date.filter(category=category)
+        for item in filtered_category:
+            amount += item.amount
+        return amount
+
+    for x in expenses_date:
+        for y in category_list:
+            finalrep[y] = get_expense_category_amount(y)
+
+    return JsonResponse({'expense_category_data': finalrep}, safe=False)
+
+
+def expense_stats(request):
+    return render(request, 'expenses/expense_stats.html')
+
+
+def income_stats(request):
+    return render(request, 'expenses/income_stats.html')

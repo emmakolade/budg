@@ -1,30 +1,8 @@
 {% extends 'expenses/base.html' %} {% load static %} {% block content %}
 <div class="main-area container-fluid">
   <div class="row">
-    <div class="col-sm-12 col-md-12 col-lg-8 main-area-content">
-      <div class="row">
-        <div class="col-sm-6 col-md-6 col-lg-6">
-          <div class="card shadow">
-            <div class="card-body">
-              <div class="imp-info income-txt">
-                <span class="info-text"> Income </span>
-                <span class="info-amt bold"> $ 18,046 </span>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="col-sm-6 col-md-6 col-lg-6">
-          <div class="card shadow">
-            <div class="card-body">
-              <div class="imp-info expense-txt">
-                <span class="info-text"> Expense Summary </span>
-                <span class="info-amt bold"> $ 46,046 </span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
+        {% include 'partials/summary.html' %}
+
     {% comment %} {% if income.count %} {% endcomment %}
     <div
       id="normalExpense"
@@ -32,7 +10,7 @@
     >
       <div class="card shadow">
         <div class="card-header text-center">
-          <i class="fas fa-file-signature"></i>Income
+          <i class="fas fa-file-signature"></i>Transactions / Income
           <div id="new-expense">
             <a href="{% url 'add_income' %}"
               ><button id="new-expense" class="btn btn-info">
