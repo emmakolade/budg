@@ -1,19 +1,16 @@
+from django.views.generic import View
+from django.contrib.auth.forms import UserCreationForm
 from django.shortcuts import render, redirect
 from django.views import View
 import json
 from django.http import JsonResponse
 from django.contrib.auth.models import User
+from django.contrib.auth import authenticate, login, logout
 # from django.contrib.auth.forms import UserCreationForm
 # from validate_email import validate_email
-from django.contrib import messages, auth
+from django.contrib import messages
 
 from django.core.mail import EmailMessage
-# Create your views here.
-
-# def registrationPage(request):
-#     form = UserCreationForm()
-#     if request.method == 'POST':
-#         form =
 
 
 class Registration(View):
@@ -48,6 +45,23 @@ class Registration(View):
         return render(request, 'authentication/register.html')
 
 
+# class Registration(View):
+#     def get(self, request):
+#         form = UserCreationForm()
+#         context = {'form': form}
+#         return render(request, 'authentication/register.html', context)
+
+#     def post(self, request):
+#         form = UserCreationForm(request.POST)
+#         if form.is_valid():
+#             form.save()
+#             messages.success(request, 'Account created successfully')
+#             return redirect('login')
+
+#         context = {'form': form}
+#         return render(request, 'authentication/register.html', context)
+
+
 class Login(View):
     def get(self, request):
         return render(request, 'authentication/login.html')
@@ -56,53 +70,29 @@ class Login(View):
         username = request.POST.get('username')
         password = request.POST.get('password')
 
+        # Try to authenticate the user with the given credentials
         if username and password:
-            user = auth.authenticate(username=username, password=password)
+            user = authenticate(username=username, password=password)
 
+            # If the user is authenticated and active, log them in and redirect them to the home page
             if user and user.is_active:
-                auth.login(request, user)
+                login(request, user)
                 messages.success(request, 'Welcome, ' +
-                                 username +' you are now logged in')
+                                 username + ' you are now logged in')
                 return redirect('home')
 
             messages.error(request, 'Invalid credentials, try again')
 
+        # If the user has not provided all the required fields, display an error message
         else:
             messages.error(request, 'Please fill all fields')
 
         return render(request, 'authentication/login.html')
 
 
-# class Login(View):
-
-#     def get(self, request):
-#         return render(request, 'authentication/login.html')
-
-#     def post(self, request):
-#         username = request.POST.get('username')
-#         password = request.POST.get('password')
-
-#         if username and password:
-#             user = auth.authenticate(username=username, password=password)
-
-#             if user:
-#                 if user.is_active:
-#                     auth.login(request, user)
-#                     messages.success(request, 'Welcome, ' +
-#                                      user.username+' you are now logged in')
-#                     return redirect('home')
-#             messages.error(
-#                 request, 'Invalid credentials,try again')
-#             return render(request, 'authentication/login.html')
-
-#         messages.error(
-#             request, 'Please fill all fields')
-#         return render(request, 'authentication/login.html')
-
-
 class Logout(View):
     def get(self, request):
-        auth.logout(request)
+        logout(request)
         messages.success(request, 'you have been logged out')
         return redirect('base')
 
