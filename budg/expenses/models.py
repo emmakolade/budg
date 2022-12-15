@@ -1,7 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
 
-
 # Define a Django model for expenses
 
 
@@ -14,6 +13,7 @@ class Expense(models.Model):
 
     def __str__(self):
         return self.category
+
 
 
 class Category(models.Model):

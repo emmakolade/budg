@@ -4,10 +4,13 @@ from django.shortcuts import render
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from .models import Source, Income
+from expenses.models import Expense
 from django.contrib import messages
 from django.core.paginator import Paginator
 import json
 from django.http import JsonResponse
+from django.db.models import Sum
+
 # Create your views here.
 
 
@@ -15,8 +18,14 @@ from django.http import JsonResponse
 def home(request):
     sources = Source.objects.all()
     income = Income.objects.filter(user=request.user).order_by('-date')
+    total_expense = Expense.objects.filter(
+        user=request.user).aggregate(total=Sum('amount'))['total']
+    total_income = Income.objects.filter(
+        user=request.user).aggregate(total=Sum('amount'))['total']
     context = {
         'income': income,
+        'total_income': total_income,
+        'total_expense': total_expense,
     }
     return render(request, 'income/index.html', context)
 
@@ -42,7 +51,7 @@ def add_income(request):
         messages.error(request, 'description is required')
         return redirect('add_income')
 
-    # Retrieve the date and category from the request data
+    # Retrieve the date and source from the request data
     date = request.POST.get('date')
     source = request.POST.get('source')
 
@@ -57,7 +66,7 @@ def edit_income(request, id):
     # Get the expense to be edited
     income = Income.objects.get(pk=id)
 
-    # Get all available categories
+    # Get all available sources
     sources = Source.objects.all()
 
     if request.method == 'POST':

@@ -43,16 +43,9 @@
       {% endif %}
       <div class="nav-link-right">
         <ul>
-          {% if user.is_authenticated %}
-          <form class="example" style="margin: auto; max-width: 300px">
-            <input
-              id="searchField"
-              type="text"
-              placeholder="Search Expenses.."
-              name="search"
-            />
-          </form>
-
+         
+         
+ {% if user.is_authenticated %}
           <li class="w-768">
             <span>Hi, {{request.user}}</span>
           </li>

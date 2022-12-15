@@ -1,11 +1,13 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from .models import Category, Expense
+from income.models import Income
 from django.contrib import messages
 from django.core.paginator import Paginator
 import json
 from django.http import JsonResponse
 import datetime
+from django.db.models import Sum
 # Create your views here.
 
 
@@ -14,12 +16,19 @@ def home(request):
     categories = Category.objects.all()
     expenses = Expense.objects.filter(user=request.user).order_by('-date')
 
+    total_expense = Expense.objects.filter(
+        user=request.user).aggregate(total=Sum('amount'))['total']
+    total_income = Income.objects.filter(
+        user=request.user).aggregate(total=Sum('amount'))['total']
     # paginator = Paginator(expenses, 5)
     # page_number = request.GET.get('page')
     # # page_object = paginator.page(page_number)
     # page_object = Paginator.get_page(paginator, page_number)
     context = {
         'expenses': expenses,
+        'total_expense': total_expense,
+        'total_income': total_income,
+        'categories': categories,
         # 'page_object': page_object,
     }
     return render(request, 'expenses/index.html', context)
@@ -96,37 +105,6 @@ def edit_expense(request, id):
 
     return render(request, 'expenses/edit_expense.html', context)
 
-# def edit_expense(request, id):
-#     expense = Expense.objects.get(pk=id)
-#     categories = Category.objects.all()
-#     context = {
-#         'expense': expense,
-#         'values': expense,
-#         'categories': categories,
-#     }
-#     if request.method == 'GET':
-#         return render(request, 'expenses/edit_expense.html', context)
-#     amount = request.POST.get('amount')
-#     if not amount:
-#         messages.error(request, 'amount is required')
-#         return redirect('edit_expense')
-
-#     description = request.POST.get('description')
-#     if not description:
-#         messages.error(request, 'description is required')
-#         return redirect('edit_expense')
-
-#     # date = request.POST.get('date')
-#     category = request.POST.get('category')
-#     expense.user = request.user
-#     expense.amount = amount
-#     expense.category = category
-#     expense.description = description
-#     expense.save()
-
-#     messages.success(request, ' expense upadted succesfully')
-#     return redirect('home')
-
 
 def delete_expense(request, id):
     expense = Expense.objects.get(pk=id)
@@ -146,9 +124,8 @@ def search_expense(request):
 
         return JsonResponse(list(data), safe=False)
 
+
 # endpoint visualizing the expense data
-
-
 def expense_summary(request):
     current_date = datetime.date.today()
     sixmonth_ago = current_date - datetime.timedelta(days=30 * 6)

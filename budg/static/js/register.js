@@ -46,8 +46,6 @@ emailField.addEventListener("keyup", (e) => {
 });
 
 usernameField.addEventListener("keyup", (e) => {
-  console.log("77777", 777777);
-
   const usernameVal = e.target.value;
   usernameSuccessOutput.style.display = "block";
 
@@ -69,7 +67,7 @@ usernameField.addEventListener("keyup", (e) => {
           usernameField.classList.add("is-invalid");
           feedBackArea.style.display = "block";
           feedBackArea.innerHTML = `<p>${data.username_error}</p>`;
-        }else{
+        } else {
           submitBtn.removeAttribute("disabled");
         }
       });

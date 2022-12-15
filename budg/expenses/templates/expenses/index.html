@@ -1,12 +1,9 @@
 {% extends 'expenses/base.html' %} {% load static %} {% block content %}
 <div class="main-area container-fluid">
   <div class="row">
-    {% include 'partials/summary.html' %} 
-    {% if expenses.count %}
-    <div
-      id="normalExpense"
-      class="col-sm-12 col-md-12 col-lg-4 transaction-history"
-    >
+    {% include 'partials/summary.html' %} {% comment %} {% if expenses.count %}
+    {% endcomment %}
+    <div class="col-sm-12 col-md-12 col-lg-4 transaction-history">
       <div class="card shadow">
         <div class="card-header text-center">
           <i class="fas fa-file-signature"></i>Transactions / Expenses
@@ -18,10 +15,17 @@
             >
           </div>
         </div>
-
+        <form class="example" style="margin: auto; max-width: 300px">
+          <input
+            id="searchField"
+            type="text"
+            placeholder="Search Expenses.."
+            name="search"
+          />
+        </form>
         <div class="card-body">
           {% for expense in expenses %}
-          <ul class="transaction-history-wrapper">
+          <ul id="normalExpense" class="transaction-history-wrapper">
             <li>
               <div class="row">
                 <div class="col-8 f">
@@ -40,7 +44,6 @@
                       ><button class="trash">
                         <i class="fa-regular fa-pen-to-square"></i></button
                     ></a>
-
                     <a href="{% url 'delete_expense' expense.id %}"
                       ><button class="trash">
                         <i class="fa-regular fa-trash-can"></i></button
@@ -72,12 +75,45 @@
         {% endcomment %}
       </div>
     </div>
-    {% comment %} search expense {% endcomment %} {% endif %}
+
+    {% comment %} search res {% endcomment %}
+    <div class="col-sm-12 col-md-12 col-lg-4 transaction-history">
+      <div class="card shadow">
+        <div class="card-header text-center">
+          <i class="fas fa-file-signature"></i>Transactions / Expenses
+        </div>
+        <div class="card-body">
+          <ul id="normalExpense" class="transaction-history-wrapper">
+            <li>
+              <div class="row">
+                <div class="col-8 f searchRes">
+                  <!-- <i class="fab fa-aviato"></i> -->
+                  <span class="spending-text">
+                    <span class="heading"> {{expense.description}} </span>
+                    <span class="sub">{{expense.date}}</span>
+                    <span class="sub2">category: {{expense.category}}</span>
+                  </span>
+                </div>
+
+                <div class="col-4 amt-right">
+                  <span class="amount expense"> {{expense.amount}} </span>
+                 
+                </div>
+              </div>
+            </li>
+          </ul>
+        </div>
+        </div>
+        </div>
+
+        {% comment %} {% endif %} {% endcomment %}
+      </div>
+    </div>
+    {% comment %}
+    <script src="{% static 'js/searchExpenses.js' %}"></script>
+    {% endcomment %}
+    <script src="{% static 'js/searchExpensestT.js' %}"></script>
+
+    {% endblock content %}
   </div>
 </div>
-{% comment %}
-<script src="{% static 'js/searchExpenses.js' %}"></script>
-{% endcomment %}
-<script src="{% static 'js/searchExpensestT.js' %}"></script>
-
-{% endblock content %}

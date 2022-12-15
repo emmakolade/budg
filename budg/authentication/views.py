@@ -6,9 +6,8 @@ import json
 from django.http import JsonResponse
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
-# from django.contrib.auth.forms import UserCreationForm
-# from validate_email import validate_email
 from django.contrib import messages
+from django.core.validators import validate_email
 
 from django.core.mail import EmailMessage
 
@@ -18,21 +17,23 @@ class Registration(View):
         return render(request, 'authentication/register.html')
 
     def post(self, request):
-        # get user data
-
+        # get user data from the form
         email = request.POST.get('email')
         username = request.POST.get('username')
         password = request.POST.get('password')
         context = {
+            # to pre-populate the form fields with the previous input incase of an error
             'fieldvalues': request.POST
         }
 
+        # check if the username or email already exists in the database.
         if not User.objects.filter(username=username).exists():
             if not User.objects.filter(email=email).exists():
                 if len(password) < 8:
                     messages.error(request, 'password is too short')
                     return render(request, 'authentication/register.html', context)
 
+                # create a new user with the specified username, email, and password.
                 user = User.objects.create_user(
                     username=username, email=email)
                 user.set_password(password)
@@ -45,21 +46,32 @@ class Registration(View):
         return render(request, 'authentication/register.html')
 
 
-# class Registration(View):
-#     def get(self, request):
-#         form = UserCreationForm()
-#         context = {'form': form}
-#         return render(request, 'authentication/register.html', context)
+class UsernameValidation(View):
+    def post(self, request):
+        data = json.loads(request.body)
+        username = data['username']
 
+        if not username.isalnum():
+            return JsonResponse({'username_error': 'username should only contain letters and numbers'}, status=400)
+        # if usrname exists
+        if User.objects.filter(username=username).exists():
+            return JsonResponse({'username_error': 'username already exsits.. try another one'}, status=409)
+
+        return JsonResponse({'username_valid': True})
+
+
+# class EmailValidation(View):
 #     def post(self, request):
-#         form = UserCreationForm(request.POST)
-#         if form.is_valid():
-#             form.save()
-#             messages.success(request, 'Account created successfully')
-#             return redirect('login')
+#         data = json.loads(request.body)
+#         email = data['email']
 
-#         context = {'form': form}
-#         return render(request, 'authentication/register.html', context)
+#         if not validate_email(email):
+#             return JsonResponse({'email_error': 'invalid email'}, status=400)
+#         # if email exists
+#         if User.objects.filter(email=email).exists():
+#             return JsonResponse({'email_error': 'email already exsits.. try another one'}, status=409)
+
+#         return JsonResponse({'email_valid': True})
 
 
 class Login(View):
@@ -95,31 +107,3 @@ class Logout(View):
         logout(request)
         messages.success(request, 'you have been logged out')
         return redirect('base')
-
-
-class UsernameValidation(View):
-    def post(self, request):
-        data = json.loads(request.body)
-        username = data['username']
-
-        if not str(username).isalnum():
-            return JsonResponse({'username_error': 'username should only contain letters and numbers'}, status=400)
-        # if usrname exists
-        if User.objects.filter(username=username).exists():
-            return JsonResponse({'username_error': 'username already exsits.. try another one'}, status=409)
-
-        return JsonResponse({'username_valid': True})
-
-
-# class EmailValidation(View):
-#     def post(self, request):
-#         data = json.loads(request.body)
-#         email = data['email']
-
-#         if not validate_email(email):
-#             return JsonResponse({'email_error': 'invalid email'}, status=400)
-#         # if usrname exists
-#         if User.objects.filter(email=email).exists():
-#             return JsonResponse({'email_error': 'email already exsits.. try another one'}, status=409)
-
-#         return JsonResponse({'email_valid': True})
