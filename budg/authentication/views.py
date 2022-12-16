@@ -57,22 +57,6 @@ class UsernameValidation(View):
         if User.objects.filter(username=username).exists():
             return JsonResponse({'username_error': 'username already exsits.. try another one'}, status=409)
 
-        return JsonResponse({'username_valid': True})
-
-
-# class EmailValidation(View):
-#     def post(self, request):
-#         data = json.loads(request.body)
-#         email = data['email']
-
-#         if not validate_email(email):
-#             return JsonResponse({'email_error': 'invalid email'}, status=400)
-#         # if email exists
-#         if User.objects.filter(email=email).exists():
-#             return JsonResponse({'email_error': 'email already exsits.. try another one'}, status=409)
-
-#         return JsonResponse({'email_valid': True})
-
 
 class Login(View):
     def get(self, request):
@@ -87,7 +71,7 @@ class Login(View):
             user = authenticate(username=username, password=password)
 
             # If the user is authenticated and active, log them in and redirect them to the home page
-            if user and user.is_active:
+            if user is not None:
                 login(request, user)
                 messages.success(request, 'Welcome, ' +
                                  username + ' you are now logged in')

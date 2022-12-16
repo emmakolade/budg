@@ -102,15 +102,3 @@ def delete_income(request, id):
     income.delete()
     messages.success(request, 'Income record deleted successfully')
     return redirect('home')
-
-
-# def search_expense(request):
-#     if request.method == "POST":
-#         search_request = json.loads(request.body).get('searchText')
-
-#         s_expenses = Expense.objects.filter(amount__starts_with=search_request, user=request.user) | Expense.objects.filter(
-#             date__starts_with=search_request, user=request.user) | Expense.objects.filter(description__icontains=search_request, user=request.user) | Expense.objects.filter(category__icontians=search_request, user=request.user)
-
-#         data = s_expenses.values()
-
-#         return JsonResponse(list(data), safe=False)

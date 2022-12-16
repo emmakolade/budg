@@ -1,6 +1,44 @@
-{% extends 'expenses/base.html' %} {% load static %} {% block content %}
+{% load static %} {% comment %} {% extends 'expenses/base.html' %} {% load
+static %} {% block content %} {% endcomment %}
 
-<canvas id="myChart" width="400" height="400"> </canvas>
+<div>
+  <canvas id="myChart" width="400" height="400"> </canvas>
+</div>
 
-<script src="{% static 'js/stats.js' %}"></script>
-{% endblock content %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+  const renderChart = (data, labels) => {
+    const ctx = document.getElementById("myChart");
+
+    const myChart = new Chart(ctx, {
+      type: "pie",
+      data: {
+        labels: labels,
+        datasets: [
+          {
+            label: "12 Month Expense",
+            data: data,
+            borderWidth: 1,
+          },
+        ],
+      },
+      options: {},
+    });
+  };
+
+  const getChartData = () => {
+    fetch("/expense_summary/")
+      .then((res) => res.json())
+      .then((results) => {
+        const category_data = results.expense_category_data;
+        const [labels, data] = [
+          Object.keys(category_data),
+          Object.values(category_data),
+        ];
+        renderChart(data, labels);
+      });
+  };
+
+  document.onload = getChartData();
+</script>
