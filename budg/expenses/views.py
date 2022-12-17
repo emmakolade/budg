@@ -122,14 +122,14 @@ def search_expense(request):
 
 
 # endpoint visualizing the expense data
-# def expense_summary(request):
-#     current_date = datetime.date.today()
-#     twelvemonth_ago = current_date - datetime.timedelta(days=360)
-#     # get all expenses for the current user within the past 12 months
-#     expenses_date = Expense.objects.filter(user=request.user,
-#                                            date__gte=twelvemonth_ago, date__lte=current_date)
+def expense_summary(request):
+    current_date = datetime.date.today()
+    twelvemonth_ago = current_date - datetime.timedelta(days=360)
+    # get all expenses for the current user within the past 12 months
+    expenses_date = Expense.objects.filter(user=request.user,
+                                           date__gte=twelvemonth_ago, date__lte=current_date)
 
-#     finalSummary = {}
+    finalSummary = {}
 
     # # get a list of all unique categories in the expenses
     # category_list = list(set(expense.category for expense in expenses_date))
@@ -149,24 +149,24 @@ def search_expense(request):
     # # Return the final_summary as a JSON response
     # return JsonResponse({'expense_category_data': final_summary}, safe=False)
 
-    # # get all the category in an expense
-    # def get_category(expense):
-    #     return expense.category
+    # get all the category in an expense
+    def get_category(expense):
+        return expense.category
 
-    # category_list = list(set(map(get_category, expenses_date)))
+    category_list = list(set(map(get_category, expenses_date)))
 
-    # def get_expense_category_amount(category):
-    #     amount = 0
-    #     filtered_category = expenses_date.filter(category=category)
-    #     for item in filtered_category:
-    #         amount += item.amount
-    #     return amount
+    def get_expense_category_amount(category):
+        amount = 0
+        filtered_category = expenses_date.filter(category=category)
+        for item in filtered_category:
+            amount += item.amount
+        return amount
 
-    # for x in expenses_date:
-    #     for y in category_list:
-    #         finalSummary[y] = get_expense_category_amount(y)
+    for x in expenses_date:
+        for y in category_list:
+            finalSummary[y] = get_expense_category_amount(y)
 
-    # return JsonResponse({'expense_category_data': finalSummary}, safe=False)
+    return JsonResponse({'expense_category_data': finalSummary}, safe=False)
 
 
 def expense_stats(request):
@@ -180,5 +180,4 @@ def expense_stats(request):
     return render(request, 'expenses/expense_stats.html')
 
 
-def income_stats(request):
-    return render(request, 'expenses/income_stats.html')
+

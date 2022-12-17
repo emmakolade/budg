@@ -12,7 +12,7 @@ static %} {% block content %} {% endcomment %}
     const ctx = document.getElementById("myChart");
 
     const myChart = new Chart(ctx, {
-      type: "doughnut",
+      type: "pie",
       data: {
         labels: labels,
         datasets: [
@@ -28,10 +28,10 @@ static %} {% block content %} {% endcomment %}
   };
 
   const getChartData = () => {
-    fetch("/expense_summary/")
+    fetch("/income_summary/")
       .then((res) => res.json())
       .then((results) => {
-        const category_data = results.expense_category_data;
+        const category_data = results.income_category_data;
         const [labels, data] = [
           Object.keys(category_data),
           Object.values(category_data),

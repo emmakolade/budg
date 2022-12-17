@@ -13,6 +13,5 @@ urlpatterns = [
     path('search_expense/<int:id>',
          csrf_exempt(views.search_expense), name="search_expense"),
     path('expense_stats/', views.expense_stats, name="expense_stats"),
-    path('income_stats/', views.income_stats, name="income_stats"),
-    # path('expense_summary/', views.expense_summary, name="expense_summary"),
+    path('expense_summary/', views.expense_summary, name="expense_summary"),
 ]

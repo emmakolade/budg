@@ -10,6 +10,7 @@ from django.core.paginator import Paginator
 import json
 from django.http import JsonResponse
 from django.db.models import Sum
+import datetime
 
 # Create your views here.
 
@@ -102,3 +103,36 @@ def delete_income(request, id):
     income.delete()
     messages.success(request, 'Income record deleted successfully')
     return redirect('home')
+
+
+def income_stats(request):
+    return render(request, 'income/income_stats.html')
+
+
+def income_summary(request):
+    current_date = datetime.date.today()
+    twelvemonth_ago = current_date - datetime.timedelta(days=360)
+    # get all expenses for the current user within the past 12 months
+    income_date = Income.objects.filter(user=request.user,
+                                           date__gte=twelvemonth_ago, date__lte=current_date)
+
+    finalSummary = {}
+ # get all the income in an expense
+
+    def get_source(income):
+        return income.source
+
+    income_list = list(set(map(get_source, income_date)))
+
+    def get_income_category_amount(income):
+        amount = 0
+        filtered_category = income_date.filter(income=income)
+        for item in filtered_category:
+            amount += item.amount
+        return amount
+
+    for x in income_date:
+        for y in income_list:
+            finalSummary[y] = get_income_category_amount(y)
+
+    return JsonResponse({'income_category_data': finalSummary}, safe=False)
