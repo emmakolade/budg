@@ -8,6 +8,7 @@ searchField.addEventListener("keyup", (e) => {
   const searchValue = e.target.value;
 
   if (searchValue.trim().lenght > 0) {
+    console.log('searchValue');
     fetch("/expenses/search_expenses/", {
       body: JSON.stringify({ seatchText: searchValue }),
       method: "POST",

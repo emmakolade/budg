@@ -1,9 +1,7 @@
 {% extends 'expenses/base.html' %} {% load static %} {% block content %}
 
-  {% include 'partials/summary.html' %}
-  
-     {% comment %} {% if expenses.count %}
-    {% endcomment %}
+{% include 'partials/summary.html' %}
+<!-- {% if expenses.count %} -->
     <div class="col-sm-12 col-md-12 col-lg-4 transaction-history">
       <div class="card shadow">
         <div class="card-header text-center">
@@ -15,16 +13,16 @@
               </a
             >
           </div>
-          <form class="example" style="margin: auto; max-width: 300px">
+          <div class="example form-group" style="margin: auto; max-width: 300px">
           <input
             id="searchField"
+            class= "form-control"
             type="text"
             placeholder="Search Expenses.."
             name="search"
           />
-        </form>
         </div>
-        
+        </div>
         <div class="card-body">
           {% for expense in expenses %}
           <ul id="normalExpense" class="transaction-history-wrapper">
@@ -78,10 +76,9 @@
       </div>
     </div>
 
-        {% comment %} {% endif %} {% endcomment %}
-    {% comment %}
+<!-- {% endif %}  -->
+
     <script src="{% static 'js/searchExpenses.js' %}"></script>
-    {% endcomment %}
     <script src="{% static 'js/searchExpensestT.js' %}"></script>
 
     {% endblock content %}
