@@ -1,7 +1,6 @@
 {% extends 'expenses/base.html' %} {% load static %} {% block content %}
 
 {% include 'partials/summary.html' %}
-<!-- {% if expenses.count %} -->
     <div class="col-sm-12 col-md-12 col-lg-4 transaction-history">
       <div class="card shadow">
         <div class="card-header text-center">
@@ -75,12 +74,6 @@
         {% endcomment %}
       </div>
     </div>
-
-<!-- {% endif %}  -->
-
-    <script src="{% static 'js/searchExpenses.js' %}"></script>
-    <script src="{% static 'js/searchExpensestT.js' %}"></script>
-
     {% endblock content %}
   </div>
 </div>
