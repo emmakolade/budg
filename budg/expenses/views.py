@@ -9,6 +9,7 @@ from django.http import JsonResponse
 import datetime
 from django.db.models import Sum
 
+
 # Create your views here.
 
 
@@ -170,14 +171,35 @@ def expense_summary(request):
 
 
 def expense_stats(request):
-    current_date = datetime.date.today()
-    twelvemonth_ago = current_date - datetime.timedelta(days=360)
-    # get all expenses for the current user within the past 12 months
-    expenses_date = Expense.objects.filter(user=request.user,
-                                           date__gte=twelvemonth_ago, date__lte=current_date)
-    
-    
-    return render(request, 'expenses/expense_stats.html')
+    expenses = Expense.objects.all()
+    data = [(expense.category, expense.amount) for expense in expenses]
+    context = {
+        'data': data
+    }
+  
+    # # Retrieve the expenses for the current user
+    # expenses = Expense.objects.filter(user=request.user).values(
+    #     'category').annotate(total=Sum('amount'))
+
+    # # Set the chart type and title
+    # chart_type = 'pie'
+    # chart_title = 'Expense Categories'
+
+    # # Pass the data and options to the template
+    # context = {
+    #     'expenses': expenses,
+    #     'chart_type': chart_type,
+    #     'chart_title': chart_title,
+    # }
+
+    return render(request, 'expenses/expense_stats.html', context)
+
+# def expense_stats(request):
+#     current_date = datetime.date.today()
+#     twelvemonth_ago = current_date - datetime.timedelta(days=360)
+#     # get all expenses for the current user within the past 12 months
+#     expenses_date = Expense.objects.filter(user=request.user,
+#                                            date__gte=twelvemonth_ago, date__lte=current_date)
 
 
-
+#     return render(request, 'expenses/expense_stats.html')

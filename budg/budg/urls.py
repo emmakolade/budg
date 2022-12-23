@@ -23,7 +23,7 @@ urlpatterns = [
     path('authentication/', include('authentication.urls')),
     path('useroptions/', include('useroptions.urls')),
     path('income/', include('income.urls')),
-    
+    # path('chartjs/', include('chartjs.urls')),
     path('password_reset/done/', auth_views.PasswordResetDoneView.as_view(
         template_name='expenses/templates/authentication/password_reset_done.html'), name='password_reset_done'),
     path('reset/<uidb64>/<token>/', auth_views.PasswordResetConfirmView.as_view(

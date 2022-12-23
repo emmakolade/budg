@@ -1,12 +1,75 @@
-{% load static %} {% comment %} {% extends 'expenses/base.html' %} {% load
-static %} {% block content %} {% endcomment %}
+{% load static %}
 
+
+    <script
+      type="text/javascript"
+      src="https://www.gstatic.com/charts/loader.js"
+    ></script>
+    <script type="text/javascript">
+      google.charts.load('current', {'packages':['corechart']});
+      google.charts.setOnLoadCallback(drawChart);
+
+      function drawChart() {
+        var data = google.visualization.arrayToDataTable([
+          ['Category', 'Amount'],
+          {% for category, amount in data %}
+            ['{{ category }}', {{ amount }}],
+          {% endfor %}
+        ]);
+
+        var options = {
+          title: 'Expense Categories',
+          pieHole: 0.4,
+        };
+
+        var chart = new google.visualization.PieChart(document.getElementById('doughnut_chart'));
+        chart.draw(data, options);
+      }
+    </script>
+
+      <div id="doughnut_chart" style="width: 900px; height: 500px"></div>
+
+
+
+{% comment %}
+<script>
+  // Load the Visualization API and the piechart package.
+  google.charts.load('current', {'packages':['corechart']});
+
+  // Set a callback to run when the Google Visualization API is loaded.
+  google.charts.setOnLoadCallback(drawChart);
+
+  // Callback that creates and populates a data table,
+  // instantiates the pie chart, passes in the data and
+  // draws it.
+  function drawChart() {
+    // Create the data table.
+    var data = new google.visualization.DataTable();
+    data.addColumn('string', 'Category');
+    data.addColumn('number', 'Amount');
+
+    // Add rows to the data table
+    {% for expense in expenses %}
+      data.addRow(['{{ expense.category }}', {{ expense.amount }}]);
+    {% endfor %}
+
+    // Set chart options
+    var options = {'title':'Expense Categories',
+                   'width':400,
+                   'height':300};
+
+    // Instantiate and draw our chart, passing in some options.
+    var chart = new google.visualization.PieChart(document.getElementById('chart-container'));
+    chart.draw(data, options);
+  }
+</script>
+{% endcomment %} {% comment %}
 <div>
   <canvas id="myChart" width="400" height="400"> </canvas>
 </div>
-
+{% endcomment %} {% comment %}
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
+{% endcomment %} {% comment %}
 <script>
   const renderChart = (data, labels) => {
     const ctx = document.getElementById("myChart");
@@ -42,3 +105,4 @@ static %} {% block content %} {% endcomment %}
 
   document.onload = getChartData();
 </script>
+{% endcomment %}
