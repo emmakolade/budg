@@ -7,16 +7,9 @@
       <div class="card shadow">
         <div class="card-header text-center">
           <i class="fas fa-file-signature"></i>Transactions / Expenses
-          <div id="new-expense">
-            <a href="{% url 'add_expense' %}"
-              >
-              <i class="fa-regular fa-plus" id="new-expense"></i>
-              </a
-            >
-          </div>
         </div>
         <div class="card-body">
-          {% for search in s_expenses %}
+          {% for search in expenses %}
           <ul id="normalExpense" class="transaction-history-wrapper">
             <li>
               <div class="row">
@@ -42,22 +35,22 @@
           <div class="transaction-footer">
             <div class="missing-transactions">
               <span>
-                Showing Page {{s_expenses.number}} of
-                {{s_expenses.paginator.num_pages}}</span
+                Showing Page {{expenses.number}} of
+                {{expenses.paginator.num_pages}}</span
               >
             </div>
-    {% if s_expenses.has_previous %}
-       <button class="btn btn-info"><a href="?page={{ s_expenses.previous_page_number }}">Previous</a></button>
+    {% if expenses.has_previous %}
+       <button class="btn btn-info"><a href="?page={{ expenses.previous_page_number }}">Previous</a></button>
     {% endif %}
-    {% for page_number in s_expenses.paginator.page_range %}
-        {% if page_number == s_expenses.number %}
+    {% for page_number in expenses.paginator.page_range %}
+        {% if page_number == expenses.number %}
             <strong>{{ page_number }}</strong>
         {% else %}
             <a href="?page={{ page_number }}">{{ page_number }}</a>
         {% endif %}
     {% endfor %}
-    {% if s_expenses.has_next %}
-        <button class="btn btn-info"><a href="?page={{ s_expenses.next_page_number }}">Next</a></button>
+    {% if expenses.has_next %}
+        <button class="btn btn-info"><a href="?page={{ expenses.next_page_number }}">Next</a></button>
     {% endif %}
           </div>
         </div>

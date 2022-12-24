@@ -116,7 +116,7 @@ def delete_expense(request, id):
 
 def search_expense(request):
     search_request = request.POST.get('search', '')
-    s_expenses = Expense.objects.filter(
+    expenses = Expense.objects.filter(
         Q(amount__startswith=search_request) |
         Q(date__startswith=search_request) |
         Q(description__icontains=search_request) |
@@ -124,12 +124,19 @@ def search_expense(request):
         user=request.user
     )
     
-    paginator = Paginator(s_expenses, 15)
+    total_expense = Expense.objects.filter(
+        user=request.user).aggregate(total=Sum('amount'))['total']
+    total_income = Income.objects.filter(
+        user=request.user).aggregate(total=Sum('amount'))['total']
+    
+    paginator = Paginator(expenses, 15)
     page_number = request.GET.get('page')
-    s_expenses = paginator.get_page(page_number)
+    expenses = paginator.get_page(page_number)
     
     context = {
-        's_expenses': s_expenses
+        'total_expense': total_expense,
+        'total_income': total_income,
+        'expenses': expenses
     }
     return render(request, 'expenses/search_expense.html', context)
 
@@ -138,10 +145,10 @@ def search_expense(request):
 #     if request.method == "POST":
 #         search_request = json.loads(request.body).get('searchText')
 
-#         s_expenses = Expense.objects.filter(amount__starts_with=search_request, user=request.user) | Expense.objects.filter(
+#         expenses = Expense.objects.filter(amount__starts_with=search_request, user=request.user) | Expense.objects.filter(
 #             date__starts_with=search_request, user=request.user) | Expense.objects.filter(description__icontains=search_request, user=request.user) | Expense.objects.filter(category__icontians=search_request, user=request.user)
 
-#         data = s_expenses.values()
+#         data = expenses.values()
 
 #         return JsonResponse(list(data), safe=False)
 
