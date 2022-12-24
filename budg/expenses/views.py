@@ -10,6 +10,7 @@ import datetime
 from django.db.models import Sum
 
 
+
 # Create your views here.
 
 
@@ -111,26 +112,30 @@ def delete_expense(request, id):
 
 
 def search_expense(request):
-    if request.method == "POST":
-        search_request = json.loads(request.body).get('searchText')
+    return render(request, 'expenses/search_expense.html')
 
-        s_expenses = Expense.objects.filter(amount__starts_with=search_request, user=request.user) | Expense.objects.filter(
-            date__starts_with=search_request, user=request.user) | Expense.objects.filter(description__icontains=search_request, user=request.user) | Expense.objects.filter(category__icontians=search_request, user=request.user)
 
-        data = s_expenses.values()
+# def search_expense(request):
+#     if request.method == "POST":
+#         search_request = json.loads(request.body).get('searchText')
 
-        return JsonResponse(list(data), safe=False)
+#         s_expenses = Expense.objects.filter(amount__starts_with=search_request, user=request.user) | Expense.objects.filter(
+#             date__starts_with=search_request, user=request.user) | Expense.objects.filter(description__icontains=search_request, user=request.user) | Expense.objects.filter(category__icontians=search_request, user=request.user)
+
+#         data = s_expenses.values()
+
+#         return JsonResponse(list(data), safe=False)
 
 
 # endpoint visualizing the expense data
-def expense_summary(request):
-    current_date = datetime.date.today()
-    twelvemonth_ago = current_date - datetime.timedelta(days=360)
-    # get all expenses for the current user within the past 12 months
-    expenses_date = Expense.objects.filter(user=request.user,
-                                           date__gte=twelvemonth_ago, date__lte=current_date)
+# def expense_summary(request):
+#     current_date = datetime.date.today()
+#     twelvemonth_ago = current_date - datetime.timedelta(days=360)
+#      get all expenses for the current user within the past 12 months
+#     expenses_date = Expense.objects.filter(user=request.user,
+#                                            date__gte=twelvemonth_ago, date__lte=current_date)
 
-    finalSummary = {}
+#     finalSummary = {}
 
     # # get a list of all unique categories in the expenses
     # category_list = list(set(expense.category for expense in expenses_date))
@@ -151,46 +156,30 @@ def expense_summary(request):
     # return JsonResponse({'expense_category_data': final_summary}, safe=False)
 
     # get all the category in an expense
-    def get_category(expense):
-        return expense.category
+    # def get_category(expense):
+    #     return expense.category
 
-    category_list = list(set(map(get_category, expenses_date)))
+    # category_list = list(set(map(get_category, expenses_date)))
 
-    def get_expense_category_amount(category):
-        amount = 0
-        filtered_category = expenses_date.filter(category=category)
-        for item in filtered_category:
-            amount += item.amount
-        return amount
+    # def get_expense_category_amount(category):
+    #     amount = 0
+    #     filtered_category = expenses_date.filter(category=category)
+    #     for item in filtered_category:
+    #         amount += item.amount
+    #     return amount
 
-    for x in expenses_date:
-        for y in category_list:
-            finalSummary[y] = get_expense_category_amount(y)
+    # for x in expenses_date:
+    #     for y in category_list:
+    #         finalSummary[y] = get_expense_category_amount(y)
 
-    return JsonResponse({'expense_category_data': finalSummary}, safe=False)
+    # return JsonResponse({'expense_category_data': finalSummary}, safe=False)
 
 
 def expense_stats(request):
-    expenses = Expense.objects.all()
-    data = [(expense.category, expense.amount) for expense in expenses]
+    expenses = Expense.objects.filter(user=request.user)
     context = {
-        'data': data
+        'expenses': expenses,
     }
-  
-    # # Retrieve the expenses for the current user
-    # expenses = Expense.objects.filter(user=request.user).values(
-    #     'category').annotate(total=Sum('amount'))
-
-    # # Set the chart type and title
-    # chart_type = 'pie'
-    # chart_title = 'Expense Categories'
-
-    # # Pass the data and options to the template
-    # context = {
-    #     'expenses': expenses,
-    #     'chart_type': chart_type,
-    #     'chart_title': chart_title,
-    # }
 
     return render(request, 'expenses/expense_stats.html', context)
 
