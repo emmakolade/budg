@@ -7,8 +7,7 @@ from django.core.paginator import Paginator
 import json
 from django.http import JsonResponse
 import datetime
-from django.db.models import Sum
-
+from django.db.models import Sum, Q
 
 
 # Create your views here.
@@ -23,6 +22,10 @@ def home(request):
         user=request.user).aggregate(total=Sum('amount'))['total']
     total_income = Income.objects.filter(
         user=request.user).aggregate(total=Sum('amount'))['total']
+    
+    paginator = Paginator(expenses, 5)
+    page_number = request.GET.get('page')
+    expenses = paginator.get_page(page_number)
     context = {
         'expenses': expenses,
         'total_expense': total_expense,
@@ -112,7 +115,23 @@ def delete_expense(request, id):
 
 
 def search_expense(request):
-    return render(request, 'expenses/search_expense.html')
+    search_request = request.POST.get('search', '')
+    s_expenses = Expense.objects.filter(
+        Q(amount__startswith=search_request) |
+        Q(date__startswith=search_request) |
+        Q(description__icontains=search_request) |
+        Q(category__icontains=search_request),
+        user=request.user
+    )
+    
+    paginator = Paginator(s_expenses, 15)
+    page_number = request.GET.get('page')
+    s_expenses = paginator.get_page(page_number)
+    
+    context = {
+        's_expenses': s_expenses
+    }
+    return render(request, 'expenses/search_expense.html', context)
 
 
 # def search_expense(request):

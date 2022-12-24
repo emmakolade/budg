@@ -1,4 +1,5 @@
-{% extends 'expenses/base.html' %} {% load static %} {% block content %}
+{% extends 'expenses/base.html' %} {% load static %} 
+{% block content %}
 
 {% include 'partials/summary.html' %}
     <div class="col-sm-12 col-md-12 col-lg-4 transaction-history">
@@ -13,6 +14,8 @@
             >
           </div>
           <div class="example form-group" style="margin: auto; max-width: 300px">
+          <form method= "POST" action="{% url 'search_expense' %}">
+            {% csrf_token %}
           <input
             id="searchField"
             class= "form-control"
@@ -20,6 +23,7 @@
             placeholder="Search Expenses.."
             name="search"
           />
+          </form>
         </div>
         </div>
         <div class="card-body">
@@ -55,23 +59,34 @@
           {% endfor %}
         </div>
 
-        {% comment %}
         <div class="card-footer">
           <div class="transaction-footer">
             <div class="missing-transactions">
               <span>
-                Showing Page {{page_object.number}} of
-                {{page_object.paginator.num_pages}}</span
+                Showing Page {{expenses.number}} of
+                {{expenses.paginator.num_pages}}</span
               >
             </div>
-
-            <div>
+    {% if expenses.has_previous %}
+       <button class="btn btn-info"><a href="?page={{ expenses.previous_page_number }}">Previous</a></button>
+    {% endif %}
+    {% for page_number in expenses.paginator.page_range %}
+        {% if page_number == expenses.number %}
+            <strong>{{ page_number }}</strong>
+        {% else %}
+            <a href="?page={{ page_number }}">{{ page_number }}</a>
+        {% endif %}
+    {% endfor %}
+    {% if expenses.has_next %}
+        <button class="btn btn-info"><a href="?page={{ expenses.next_page_number }}">Next</a></button>
+    {% endif %}
+            {% comment %} <div>
               <button class="btn btn-info"><<</button>
               <button class="btn btn-info">2>></button>
-            </div>
+            </div> {% endcomment %}
           </div>
         </div>
-        {% endcomment %}
+
       </div>
     </div>
     {% endblock content %}

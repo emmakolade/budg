@@ -1,7 +1,7 @@
-# paginator = Paginator(expenses, 5)
-# page_number = request.GET.get('page')
-# # page_object = paginator.page(page_number)
-# page_object = Paginator.get_page(paginator, page_number)
+paginator = Paginator(expenses, 5)
+page_number = request.GET.get('page')
+# page_object = paginator.page(page_number)
+page_object = Paginator.get_page(paginator, page_number)
 
 # 'page_object': page_object,
 
