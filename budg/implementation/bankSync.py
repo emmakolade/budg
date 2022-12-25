@@ -3,14 +3,14 @@
 from plaid import Link
 import datetime
 import requests
+
+
 # Import Django's ORM
 from django.db import models
-# Import the Django settings module
+# Import the Django settings module 
 from django.conf import settings
 
 # Define a Django model for bank accounts
-
-
 class BankAccount(models.Model):
   # Define fields for the model
   account_number = models.CharField(max_length=100)
@@ -22,9 +22,8 @@ class BankAccount(models.Model):
   def __str__(self):
     return '{} ({})'.format(self.account_number, self.bank_name)
 
+
 # Define a Django view to synchronize a bank account
-
-
 def sync_account(request):
   # Get the bank account to synchronize
   account = BankAccount.objects.get(pk=request.POST['account_id'])
@@ -50,6 +49,8 @@ def sync_account(request):
   # Redirect the user to the bank account list page
   return redirect('account_list')
 
+
+
 # Here is an example of how you could implement the OAuth flow in a Python Django app to allow users to authenticate with their bank and grant your app access to their account data
 import requests
 from django.http import HttpResponseRedirect
@@ -58,7 +59,6 @@ from django.http import HttpResponseRedirect
 from django.conf import settings
 
 # Define a Django view that redirects the user to the Plaid OAuth login page
-
 
 def login(request):
   # Generate a unique state token to prevent cross-site request forgery (CSRF) attacks
