@@ -123,12 +123,7 @@
       <!--Main Area-->
       <div class="main-area container-fluid">
         <div class="row">
-          {% if user.is_authenticated %} 
-          
-          {% block content %} 
-          
-          {% endblock %} 
-          {% else %}
+          {% if user.is_authenticated %} {% block content %} {% endblock %} {% else %}
           <h2>
             kindly login to start managing your finances and enjoy some cool
             features
@@ -142,6 +137,12 @@
     </main>
 
     <!--- Main Content -->
+    <div class="footer">
+        &copy; AkoladeDev
+        <script>
+          document.write(new Date().getFullYear());
+        </script>
+    </div>
     <script type="text/javascript" src="{% static 'js/vendor.js' %}"></script>
     <script type="text/javascript" src="{% static 'js/main.js' %}"></script>
     <script type="text/javascript" src="{% static 'js/app.js' %}"></script>
