@@ -14,6 +14,9 @@ from pathlib import Path
 import os
 from decouple import config
 from django.contrib import messages
+import environ 
+
+env = environ.Env()
 # import django_heroku
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.

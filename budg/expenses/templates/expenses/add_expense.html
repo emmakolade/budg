@@ -8,8 +8,8 @@
   </nav>
 </div>
 <div class="content">
-  <form id="add-expense-form" action="{% url 'add_expense' %}" method="post">
-    {% csrf_token %} {% include 'partials/_messages.html' %}
+  <form class="form" id="add-expense-form" action="{% url 'add_expense' %}" method="post">
+    {% csrf_token %}
 
     <label>Category</label>
     <select name="category">
@@ -33,7 +33,7 @@
       name="amount"
       placeholder="input amount"
     />
-    <input type="submit" value="Add" class="btn btn-primary-sm" />
+    <input type="submit" value="Add" class="btn btn-info" />
   </form>
 </div>
 

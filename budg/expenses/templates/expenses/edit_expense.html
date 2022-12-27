@@ -8,7 +8,7 @@
   </nav>
 </div>
 <div class="content">
-  <form action="{% url 'edit_expense' expense.id %}" method="post">
+  <form class="form" action="{% url 'edit_expense' expense.id %}" method="post">
     {% csrf_token %} {% include 'partials/_messages.html' %}
 
     <label>Category</label>
@@ -36,7 +36,7 @@
       name="amount"
       placeholder="input amount"
     />
-    <input type="submit" value="Update" class="btn btn-primary-sm" />
+    <input type="submit" value="Update" class="btn btn-info" />
   </form>
 </div>
 {% endblock content %}

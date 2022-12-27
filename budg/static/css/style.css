@@ -78,6 +78,18 @@ video {
   vertical-align: baseline;
 }
 
+.form {
+  width: 100%;
+  outline: none;
+  background: #d0d6d9;
+  padding: 0.938rem;
+  margin: 0.5rem 40px;
+  
+}
+.content{
+  
+}
+
 body {
   line-height: 1;
 }
@@ -10607,7 +10619,9 @@ header.top-nav {
 .logo-container .logo-text h2 {
   font-size: 1.2rem;
 }
-
+.logo-container .logo-text span {
+  font-size: 0.8rem;
+}
 .nav-link-right {
   margin-top: 20px;
 }

@@ -23,6 +23,10 @@ def home(request):
         user=request.user).aggregate(total=Sum('amount'))['total']
     total_income = Income.objects.filter(
         user=request.user).aggregate(total=Sum('amount'))['total']
+    
+    paginator = Paginator(income, 5)
+    page_number = request.GET.get('page')
+    income = paginator.get_page(page_number)
     context = {
         'income': income,
         'total_income': total_income,
@@ -105,10 +109,9 @@ def delete_income(request, id):
     return redirect('home')
 
 
-# def income_stats(request):
-#     income = Income.objects.filter(user=request.user)
-#     context={
-#         'income': income
-#     }
-#     return render(request, 'income/income_stats.html', context)
-
+def income_stats(request):
+    income = Income.objects.filter(user=request.user)
+    context = {
+        'income': income
+    }
+    return render(request, 'income/income_stats.html', context)

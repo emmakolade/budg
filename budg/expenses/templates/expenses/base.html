@@ -27,7 +27,7 @@
           <i class="fas fa-chart-line"></i>
         </div>
         <div class="logo-text">
-          <h2>Budg</h2>
+          <h2>Budg <span>smart finance manager</span></h2>
         </div>
       </a>
       {% else %}
@@ -36,7 +36,8 @@
           <i class="fas fa-chart-line"></i>
         </div>
         <div class="logo-text">
-          <h2>Budg</h2>
+          <h2>Budg <span>smart finance manager</span></h2>
+          
         </div>
       </a>
       {% endif %}
@@ -74,12 +75,6 @@
       <!-- Sidebar -->
       <aside class="main-sidebar-nav">
         <ul class="wrapper">
-          <li class="active">
-            <a href="">
-              <i class="fas fa-columns"></i>
-              <span>Dashboard</span>
-            </a>
-          </li>
           <li>
             <a href="{% url 'home' %}">
               <i class="fas fa-chart-bar"></i>
@@ -123,7 +118,11 @@
       <!--Main Area-->
       <div class="main-area container-fluid">
         <div class="row">
-          {% if user.is_authenticated %} {% block content %} {% endblock %} {% else %}
+          {% if user.is_authenticated %}
+          {% block content %}
+
+          {% endblock %} 
+          {% else %}
           <h2>
             kindly login to start managing your finances and enjoy some cool
             features
@@ -137,12 +136,7 @@
     </main>
 
     <!--- Main Content -->
-    <div class="footer">
-        &copy; AkoladeDev
-        <script>
-          document.write(new Date().getFullYear());
-        </script>
-    </div>
+
     <script type="text/javascript" src="{% static 'js/vendor.js' %}"></script>
     <script type="text/javascript" src="{% static 'js/main.js' %}"></script>
     <script type="text/javascript" src="{% static 'js/app.js' %}"></script>

@@ -8,7 +8,7 @@
   </nav>
 </div>
 <div class="content">
-  <form action="{% url 'edit_income' income.id %}" method="post">
+  <form class="form" action="{% url 'edit_income' income.id %}" method="post">
     {% csrf_token %} {% include 'partials/_messages.html' %}
 
     <label>Source</label>
@@ -17,9 +17,7 @@
         {{values.source}}
       </option>
       {% for source in sources%}
-      <option name="source" value="{{source.name}}">
-        {{source.name}}
-      </option>
+      <option name="source" value="{{source.name}}">{{source.name}}</option>
       {% endfor %}
     </select>
     <label>Description</label>
@@ -36,7 +34,7 @@
       name="amount"
       placeholder="input amount"
     />
-    <input type="submit" value="Update" class="btn btn-primary-sm" />
+    <input type="submit" value="Update" class="btn btn-info" />
   </form>
 </div>
 {% endblock content %}

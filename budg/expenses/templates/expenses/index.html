@@ -1,4 +1,5 @@
-{% extends 'expenses/base.html' %} {% load static %} 
+{% extends 'expenses/base.html' %} 
+{% load static %} 
 {% block content %}
 
 {% include 'partials/summary.html' %}
@@ -7,11 +8,9 @@
         <div class="card-header text-center">
           <i class="fas fa-file-signature"></i>Transactions / Expenses
           <div id="new-expense">
-            <a href="{% url 'add_expense' %}"
-              >
+            <a href="{% url 'add_expense' %}">
               <i class="fa-regular fa-plus" id="new-expense"></i>
-              </a
-            >
+              </a>
           </div>
           <div class="example form-group" style="margin: auto; max-width: 300px">
           <form method= "POST" action="{% url 'search_expense' %}">
@@ -21,8 +20,7 @@
             class= "form-control"
             type="text"
             placeholder="Search Expenses.."
-            name="search"
-          />
+            name="search"/>
           </form>
         </div>
         </div>
@@ -43,14 +41,14 @@
                 <div class="col-4 amt-right">
                   <span class="amount expense">$ {{expense.amount}} </span>
                   <span>
-                    <a href="{% url 'edit_expense' expense.id %}"
-                      ><button class="trash">
-                        <i class="fa-regular fa-pen-to-square"></i></button
-                    ></a>
-                    <a href="{% url 'delete_expense' expense.id %}"
-                      ><button class="trash">
-                        <i class="fa-regular fa-trash-can"></i></button
-                    ></a>
+                    <a href="{% url 'edit_expense' expense.id %}">
+                      <button class="trash">
+                        <i class="fa-regular fa-pen-to-square"></i></button>
+                      </a>
+                    <a href="{% url 'delete_expense' expense.id %}">
+                      <button class="trash">
+                      <i class="fa-regular fa-trash-can"></i></button>
+                    </a>
                   </span>
                 </div>
               </div>
@@ -64,29 +62,32 @@
             <div class="missing-transactions">
               <span>
                 Showing Page {{expenses.number}} of
-                {{expenses.paginator.num_pages}}</span
-              >
+                {{expenses.paginator.num_pages}}</span>
             </div>
-    {% if expenses.has_previous %}
-       <button class="btn btn-info"><a href="?page={{ expenses.previous_page_number }}">Previous</a></button>
-    {% endif %}
-    {% for page_number in expenses.paginator.page_range %}
-        {% if page_number == expenses.number %}
+
+            {% if expenses.has_previous %}
+            <button class="btn btn-info">
+              <a href="?page={{ expenses.previous_page_number }}">Previous</a>
+            </button>
+            {% endif %} {% for page_number in expenses.paginator.page_range %}
+            {% if page_number == expenses.number %}
             <strong>{{ page_number }}</strong>
-        {% else %}
+            {% else %}
             <a href="?page={{ page_number }}">{{ page_number }}</a>
-        {% endif %}
-    {% endfor %}
-    {% if expenses.has_next %}
-        <button class="btn btn-info"><a href="?page={{ expenses.next_page_number }}">>></a></button>
-    {% endif %}
-            {% comment %} <div>
+            {% endif %} {% endfor %} {% if expenses.has_next %}
+            <button class="btn btn-info">
+              <a href="?page={{ expenses.next_page_number }}">>></a>
+            </button>
+            {% endif %} 
+            
+            {% comment %}
+            <div>
               <button class="btn btn-info"><<</button>
               <button class="btn btn-info">2>></button>
-            </div> {% endcomment %}
+            </div>
+            {% endcomment %}
           </div>
         </div>
-
       </div>
     </div>
     {% endblock content %}
