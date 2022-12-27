@@ -14,9 +14,7 @@ from pathlib import Path
 import os
 from decouple import config
 from django.contrib import messages
-import environ 
 
-env = environ.Env()
 # import django_heroku
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -149,3 +147,5 @@ MESSAGE_TAGS = {
 # Email Reset 
 EMAIL_BACKEND = "django.core.mail.backends.filebased.EmailBackend"
 EMAIL_FILE_PATH = BASE_DIR / "sent_emails"
+
+
