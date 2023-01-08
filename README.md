@@ -1,5 +1,5 @@
 # budg
-Bugd is a Smart Expense Tracker that allows you to see and track every of your expenses each month of the year.. 
+Budg is a Smart Expense Tracker that allows you to see and track every of your expenses each month of the year.. 
 
 still working on adding as many features as possible.
 
