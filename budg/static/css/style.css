@@ -84,11 +84,10 @@ video {
   background: #d0d6d9;
   padding: 0.938rem;
   margin: 0.5rem 40px;
-  
+
 }
-.content{
-  
-}
+
+.content {}
 
 body {
   line-height: 1;
@@ -10619,9 +10618,11 @@ header.top-nav {
 .logo-container .logo-text h2 {
   font-size: 1.2rem;
 }
+
 .logo-container .logo-text span {
   font-size: 0.8rem;
 }
+
 .nav-link-right {
   margin-top: 20px;
 }
@@ -10790,6 +10791,31 @@ main.main div.main-area {
 
 .transaction-history .transaction-footer .missing-transactions i {
   padding-right: 15px;
+}
+
+
+.chart-cont {
+  display: flex;
+  justify-content: space-between;
+  padding-bottom: 20px;
+}
+
+#link-button {
+  text-transform: uppercase;
+  letter-spacing: 0.05rem;
+  font-weight: 700;
+  font-size: 0.85rem;
+  border-radius: 0.5rem;
+  overflow: hidden;
+  color: orangered;
+  height: 60px;
+  margin-top: 150px;
+  margin-left: 150px;
+
+}
+
+#link-button:hover {
+  background: powderblue;
 }
 
 .imp-info {

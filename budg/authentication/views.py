@@ -20,7 +20,21 @@ from .tokens import account_activation_token
 
 
 def activate(request, uidb64, token):
-    return redirect('home')
+    try:
+        uid = force_str(urlsafe_base64_decode(uidb64))
+        user = User.objects.get(pk=uid)
+    except:
+        user = None
+
+    if user is None and account_activation_token.check_token(user, token):
+        user.is_active = True
+        user.save()
+        messages.success(
+            request, "thank you for your email confirmation, now you can login into your account")
+        return redirect('login')
+
+    messages.error(request, "activation link is invalid")
+    return redirect('login')
 
 
 class Registration(View):
@@ -52,15 +66,18 @@ class Registration(View):
                 user.save()
                 email_subject = "Activate your account."
                 email_message = render_to_string("authentication/email_activation.html", {
-                    'user': user.username,
+                    'user': user,
                     'domain': get_current_site(request).domain,
                     'uid': urlsafe_base64_encode(force_bytes(user.pk)),
+                    'token': account_activation_token.make_token(user),
                     'protocol': 'https' if request.is_secure() else 'http'
                 })
                 email = EmailMessage(
                     email_subject,
                     email_message,
-                    [user.email]
+                    to=[user.email],
+                    
+                    
                 )
                 if email.send():
                     messages.success(
@@ -121,33 +138,33 @@ class Logout(View):
 
 
 # password reset
-def password_reset_request(request):
-    if request.method == "POST":
-        password_reset_form = PasswordResetForm(request.POST)
-        if password_reset_form.is_valid():
-            data = password_reset_form.cleaned_data['email']
-            associated_user = User.objects.filter(Q(email=data))
-            if associated_user.exists():
-                for user in associated_user:
-                    subject = "password reset requested"
-                    email_template_name = "authentication/password_reset_email.txt"
-                    email_info = {
-                        'email': user.email,
-                        'domain': '127.0.0.1:8000',
-                        'site_name': 'Budg',
-                        'uid': urlsafe_base64_encode(force_bytes(user.pk)),
-                        'user': user,
-                        'token': default_token_generator.make_token(user),
-                        'protocol': 'http',
-                    }
+# def password_reset_request(request):
+#     if request.method == "POST":
+#         password_reset_form = PasswordResetForm(request.POST)
+#         if password_reset_form.is_valid():
+#             data = password_reset_form.cleaned_data['email']
+#             associated_user = User.objects.filter(Q(email=data))
+#             if associated_user.exists():
+#                 for user in associated_user:
+#                     subject = "password reset requested"
+#                     email_template_name = "authentication/password_reset_email.txt"
+#                     email_info = {
+#                         'email': user.email,
+#                         'domain': '127.0.0.1:8000',
+#                         'site_name': 'Budg',
+#                         'uid': urlsafe_base64_encode(force_bytes(user.pk)),
+#                         'user': user,
+#                         'token': default_token_generator.make_token(user),
+#                         'protocol': 'http',
+#                     }
 
-                    email = render_to_string(email_template_name, email_info)
-                    try:
-                        send_mail(subject, email, 'admin@example.com',
-                                  [user.email], fail_silently=False)
-                    except BadHeaderError:
-                        return HttpResponse('Invalid header found.')
-                    return redirect("/password_reset/done/")
+#                     email = render_to_string(email_template_name, email_info)
+#                     try:
+#                         send_mail(subject, email, 'admin@example.com',
+#                                   [user.email], fail_silently=False)
+#                     except BadHeaderError:
+#                         return HttpResponse('Invalid header found.')
+#                     return redirect("/password_reset/done/")
 
-    password_reset_form = PasswordResetForm()
-    return render(request, 'authentication/password_reset.html')
+#     password_reset_form = PasswordResetForm()
+#     return render(request, 'authentication/password_reset.html')
