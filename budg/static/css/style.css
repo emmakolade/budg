@@ -10586,14 +10586,15 @@ header.top-nav {
   text-transform: uppercase;
 }
 
-
+a:hover{
+  text-decoration: none;
+}
 
 .logo-container,
 .logo-container .logo-icon {
   align-items: center;
   display: flex;
   justify-content: center;
-
 }
 
 .logo-container .logo-icon {
@@ -10620,7 +10621,7 @@ header.top-nav {
 }
 
 .logo-container .logo-text span {
-  font-size: 0.8rem;
+  font-size: 0.6rem;
 }
 
 .nav-link-right {
@@ -10815,7 +10816,7 @@ main.main div.main-area {
 }
 
 #link-button:hover {
-  background: powderblue;
+  background: #31A1ED;
 }
 
 .imp-info {

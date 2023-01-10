@@ -151,12 +151,12 @@ def expense_stats(request):
     }
     return render(request, 'expenses/expense_stats.html', context)
 
-def income_stats(request):
-    income = Income.objects.filter(user=request.user)
-    context={
-        'income': income
-    }
-    return render(request, 'expenses/income_stats.html', context)
+# def income_stats(request):
+#     income = Income.objects.filter(user=request.user)
+#     context={
+#         'income': income
+#     }
+#     return render(request, 'expenses/income_stats.html', context)
 
 
 @csrf_protect
