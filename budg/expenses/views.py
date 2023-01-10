@@ -9,9 +9,7 @@ from django.http import JsonResponse, HttpResponseRedirect, HttpResponse
 import datetime
 from django.db.models import Sum, Q
 
-from django.views.decorators.csrf import csrf_protect, ensure_csrf_cookie
-import plaid 
-
+from django.views.decorators.csrf import csrf_protect, ensure_csrf_cookie 
 
 # Create your views here.
 

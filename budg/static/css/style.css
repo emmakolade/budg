@@ -1,4 +1,6 @@
-@import url(https://fonts.googleapis.com/css?family=Raleway:400,500,700);
+/* @import url(https://fonts.googleapis.com/css?family=Raleway:400,500,700); */
+@import url('https://fonts.googleapis.com/css2?family=Ubuntu&display=swap');
+
 
 abbr,
 address,
@@ -10525,7 +10527,9 @@ body,
 html {
   background-color: #f1f6f9;
   color: #78787a;
-  font-family: Raleway, sans-serif;
+  /* font-family: Raleway, sans-serif; */
+  font-family: Ubuntu, sans-serif;
+
   font-size: 16px;
   height: 100%;
   width: 100%;
@@ -10586,7 +10590,7 @@ header.top-nav {
   text-transform: uppercase;
 }
 
-a:hover{
+a:hover {
   text-decoration: none;
 }
 
@@ -10626,6 +10630,9 @@ a:hover{
 
 .nav-link-right {
   margin-top: 20px;
+}
+.nav-link-right span{
+  text-transform: capitalize;
 }
 
 .nav-link-right ul {
@@ -10801,22 +10808,25 @@ main.main div.main-area {
   padding-bottom: 20px;
 }
 
+.account-sync {
+  margin-top: 150px;
+  margin-left: 150px;
+}
+
 #link-button {
   text-transform: uppercase;
   letter-spacing: 0.05rem;
   font-weight: 700;
   font-size: 0.85rem;
   border-radius: 0.5rem;
-  overflow: hidden;
   color: orangered;
   height: 60px;
-  margin-top: 150px;
-  margin-left: 150px;
+
 
 }
 
 #link-button:hover {
-  background: #31A1ED;
+  background: #D4EDDA;
 }
 
 .imp-info {
@@ -10886,6 +10896,13 @@ main.main div.main-area {
 @media only screen and (min-width: 768px) {
   .w-768 {
     display: block;
+  }
+}
+
+@media only screen and (max-width: 600px) {
+  .chart-cont {
+    display: grid;
+    padding-bottom: 20px;
   }
 }
 
