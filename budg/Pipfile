@@ -17,6 +17,8 @@ google-auth-httplib2 = "*"
 google-auth = "*"
 django-environ = "*"
 python-dotenv = "*"
+plaid = "*"
+plaid-python = "*"
 
 [dev-packages]
 

@@ -150,7 +150,25 @@ MESSAGE_TAGS = {
 # django_heroku.settings(locals())
 
 # Email Reset
-EMAIL_BACKEND = "django.core.mail.backends.filebased.EmailBackend"
+EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
 EMAIL_FILE_PATH = BASE_DIR / "sent_emails"
+EMAIL_HOST = "smtp.gmail.com"
+EMAIL_FROM = "emmakolade@gmail.com"
+EMAIL_HOST_USER = "emmakolade@gmail.com"
+# EMAIL_HOST_PASSWORD = str(os.getenv("EMAIL_HOST_PASSWORD"))
+EMAIL_HOST_PASSWORD = "Kollemma123##"
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+PASSWORD_RESET_TIMEOUT= 14400
 
 
+# Twilio SendGrid
+# EMAIL_HOST = 'smtp.sendgrid.net'
+# EMAIL_PORT = 587
+# EMAIL_USE_TLS = True
+# EMAIL_HOST_USER = 'apikey'  # Name for all the SenGrid accounts
+# EMAIL_HOST_PASSWORD = str(os.getenv('SENDGRID_API_KEY'))
+
+# The email you'll be sending emails from
+DEFAULT_FROM_EMAIL = str(os.getenv('FROM_EMAIL', default='noreply@yahoo.com'))
+LOGIN_REDIRECT_URL = 'home'

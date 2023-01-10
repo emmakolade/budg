@@ -10,10 +10,13 @@ from django.contrib import messages
 from django.core.validators import validate_email
 from django.core.mail import send_mail, BadHeaderError, EmailMessage
 from django.template.loader import render_to_string
+from django.contrib.sites.shortcuts import get_current_site
 from django.db.models.query_utils import Q
-from django.utils.http import urlsafe_base64_encode
+from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.contrib.auth.tokens import default_token_generator
-from django.utils.encoding import force_bytes
+from django.utils.encoding import force_bytes, force_str
+
+from .tokens import account_activation_token
 
 
 class Registration(View):
@@ -41,10 +44,10 @@ class Registration(View):
                 user = User.objects.create_user(
                     username=username, email=email)
                 user.set_password(password)
-                user.is_active = True
+                user.is_active = False
                 user.save()
                 messages.success(
-                    request, 'account created sucessfully for ' + username)
+                    request, f'account created sucessfully for {username} please go to your email to confirm and complete the registration')
                 return redirect('login')
 
         return render(request, 'authentication/register.html')

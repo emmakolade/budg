@@ -5,9 +5,12 @@ from income.models import Income
 from django.contrib import messages
 from django.core.paginator import Paginator
 import json
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponseRedirect, HttpResponse 
 import datetime
 from django.db.models import Sum, Q
+
+from django.views.decorators.csrf import csrf_protect, ensure_csrf_cookie
+import plaid 
 
 
 # Create your views here.
@@ -154,3 +157,32 @@ def income_stats(request):
         'income': income
     }
     return render(request, 'expenses/income_stats.html', context)
+
+
+@csrf_protect
+def link_account(request):
+	context = {}
+	return render(request, 'myfinance/link-account.html', context)
+
+
+@ensure_csrf_cookie
+def create_link_token(request):
+	user = request.user
+
+	if user.is_authenticated:
+		data = {
+			'user': {
+				'client_user_id': str(user.id)
+			},
+			'products': ["transactions"],
+			'client_name': "TrakIT",
+			'country_codes': ['US'],
+			'language': 'en'
+		}
+
+		response = {'link_token': client.post('link/token/create', data)}
+
+		link_token = response['link_token']
+		return JsonResponse(link_token)
+	else:
+		return HttpResponseRedirect('/')

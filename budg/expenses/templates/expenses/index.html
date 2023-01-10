@@ -64,7 +64,6 @@
                 Showing Page {{expenses.number}} of
                 {{expenses.paginator.num_pages}}</span>
             </div>
-
             {% if expenses.has_previous %}
             <button class="btn btn-info">
               <a href="?page={{ expenses.previous_page_number }}">Previous</a>
@@ -79,13 +78,6 @@
               <a href="?page={{ expenses.next_page_number }}">>></a>
             </button>
             {% endif %}
-
-            {% comment %}
-            <div>
-              <button class="btn btn-info"><<</button>
-              <button class="btn btn-info">2>></button>
-            </div>
-            {% endcomment %}
           </div>
         </div>
       </div>
