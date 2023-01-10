@@ -19,6 +19,10 @@ from django.utils.encoding import force_bytes, force_str
 from .tokens import account_activation_token
 
 
+def activate(request, uidb64, token):
+    return redirect('home')
+
+
 class Registration(View):
     def get(self, request):
         return render(request, 'authentication/register.html')
@@ -46,8 +50,24 @@ class Registration(View):
                 user.set_password(password)
                 user.is_active = False
                 user.save()
-                messages.success(
-                    request, f'account created sucessfully for {username} please go to your email to confirm and complete the registration')
+                email_subject = "Activate your account."
+                email_message = render_to_string("authentication/email_activation.html", {
+                    'user': user.username,
+                    'domain': get_current_site(request).domain,
+                    'uid': urlsafe_base64_encode(force_bytes(user.pk)),
+                    'protocol': 'https' if request.is_secure() else 'http'
+                })
+                email = EmailMessage(
+                    email_subject,
+                    email_message,
+                    [user.email]
+                )
+                if email.send():
+                    messages.success(
+                        request, f'account created sucessfully for {username} please go to your email to confirm and complete the registration')
+                else:
+                    messages.error(
+                        request, f'problem sending activation email to {user.email}')
                 return redirect('login')
 
         return render(request, 'authentication/register.html')
