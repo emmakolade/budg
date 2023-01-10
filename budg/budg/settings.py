@@ -171,3 +171,5 @@ PASSWORD_RESET_TIMEOUT= 14400
 # The email you'll be sending emails from
 # DEFAULT_FROM_EMAIL = str(os.getenv('FROM_EMAIL', default='noreply@yahoo.com'))
 # LOGIN_REDIRECT_URL = 'home'
+
+PIPENV_VENV_IN_PROJECT = 1
